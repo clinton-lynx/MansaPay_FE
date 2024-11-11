@@ -5,8 +5,8 @@ const techStack = [
     category: "Frontend",
     tools: [
       { name: "React", description: "Builds interactive UIs with powerful components.", img: "/react.png" },
-      { name: "Figma", description: "Designs sleek and user-friendly interfaces.", img: "/figma.png" },
-      { name: "NextUI", description: "Provides ready-to-use, customizable UI components.", img: "/nextui.png" },
+      { name: "Figma", description: "Designs sleek and user-friendly interfaces.", img: "/figm.png" },
+      { name: "NextUI", description: "Provides ready-to-use, customizable UI components.", img: "/ui.png" },
       { name: "Tailwind CSS", description: "Enables rapid styling with a utility-first approach.", img: "/tailwind.png" },
     ],
   },
@@ -21,7 +21,7 @@ const techStack = [
     category: "Integrations",
     tools: [
       { name: "OpenAI GPT", description: "Powers AI-driven insights and customer support.", img: "/openai.png" },
-      { name: "Payaza API", description: "Manages secure payments and transactions.", img: "/payaza.png" },
+      { name: "Payaza API", description: "Manages secure payments and transactions.", img: "/payaza.svg" },
     ],
   },
 ];

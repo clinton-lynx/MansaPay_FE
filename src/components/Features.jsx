@@ -6,20 +6,20 @@ const whyMansaPay = [
       name: "AI-Powered Assistance",
       description:
         "Leverage our AI assistant for instant answers to contributor inquiries and campaign performance updates. Provide transparency and support, building trust with your community.",
-      img: "/ai-assistant.png",
+      img: "/aii.png",
     },
     {
       name: "Effortless Payment Links",
       description:
         "Create and share payment links with ease. MansaPay simplifies payment collection, letting you focus on making an impact while we handle the logistics.",
-      img: "/payment-link.png",
+      img: "/pay.png",
     },
 
     {
       name: "Scalable for Any Campaign",
       description:
         "Whether for small projects or large initiatives, MansaPay adapts to your funding needs, providing flexibility for campaigns of any size.",
-      img: "/scalable.png",
+      img: "/crowdfunding.png",
     },
   ];
   

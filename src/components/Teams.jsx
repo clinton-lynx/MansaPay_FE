@@ -2,16 +2,16 @@
 
 const teamMembers = [
   { 
-    name: "Jane Doe", 
-    role: "CEO & Founder", 
-    bio: "Jane brings over 10 years of experience in fintech and AI, leading teams with a focus on innovation and growth.", 
-    imageUrl: "/images/jane.jpg"
+    name: "Adeoti Clinton [Lynx]", 
+    role: "Software Engineer [Frontend]", 
+    bio:   "Leading the MansaPay project with a vision for community impact, Clinton also built the frontend interface and manages product strategy, team coordination, and pitch materials.", 
+    imageUrl: "/clinton.jpeg"
   },
   {
-    name: "John Smith",
-    role: "CTO",
-    bio: "John is an AI specialist with a background in blockchain technology and secure transactions.",
-    imageUrl: "/images/john.jpg"
+    name: "Olayori Latubosun",
+    role: "Backend Developer & Payment Integration Specialist",
+    bio: "Focused on implementing secure payment flows and handling server-side logic. Responsible for API integration and ensuring the backend supports seamless transactions.",
+    imageUrl: "/yori.jpeg"
   },
 ];
 
@@ -24,15 +24,16 @@ export default function TeamSection() {
           {teamMembers.map((member, index) => (
             <div key={index} className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm mx-auto">
               <img 
+              
                 src={member.imageUrl} 
                 alt={`${member.name} profile picture`} 
                 width={150} 
-                height={150} 
+                height={70} 
                 className="rounded-full mx-auto"
               />
-              <h3 className="text-xl text-[#0069ff] font-semibold mt-4">{member.name}</h3>
+              <h3 className="text-xl text-[#000] font-semibold mt-4">{member.name}</h3>
               <p className="text-sm text-[#0069ff] ">{member.role}</p>
-              <p className="mt-4 text-[#0069ff] ">{member.bio}</p>
+              <p className="mt-4 text-[#000] ">{member.bio}</p>
             </div>
           ))}
         </div>
