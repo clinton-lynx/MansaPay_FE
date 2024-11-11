@@ -47,7 +47,7 @@
 
 
 import { FiGithub, FiTwitter, FiLinkedin } from "react-icons/fi";
-import { Logo, WhiteLogo } from "./icons";
+import {  WhiteLogo } from "./icons";
 
 export default function Footer() {
   return (

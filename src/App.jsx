@@ -1,22 +1,33 @@
-import Features from "./components/Features";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
-import { Navbar } from "./components/Navbar";
-import TeamSection from "./components/Teams";
-import ToolsAPIs from "./components/Tools";
-import UseCases from "./components/UseCases";
+/* eslint-disable react/prop-types */
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
+  const isAuthenticated = false; // Replace with actual authentication logic
+
+  const ProtectedRoute = ({ children }) => {
+    return isAuthenticated ? children : <Navigate to="/login" />;
+  };
+
   return (
-    <>
-     <Navbar />
-     <Hero />
-     <Features />
-     <UseCases /> 
-     <ToolsAPIs />
-     <TeamSection />
-     <Footer />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
