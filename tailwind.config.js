@@ -10,9 +10,9 @@ export default {
 
  theme: {
   extend: {
-   fontFamily: {
-    sans: ["Poppins", "system-ui"],
-   },
+    fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
+    },
    keyframes: {
     bounceUp: {
      "0%": { transform: "translateY(0)" },

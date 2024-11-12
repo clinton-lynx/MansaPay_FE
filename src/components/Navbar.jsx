@@ -117,7 +117,7 @@ export const Navbar = () => {
                 <NavbarMenuItem key={`${item}-${index}`}>
                   <Link
                     color={"foreground"}
-                    href="#"
+                    href={item.href}
                     size="lg"
                     className="text-[20px] py-[13px] font-semibold"
                   >
