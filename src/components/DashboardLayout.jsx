@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   DialogPanel,
   MenuButton,
@@ -22,23 +22,23 @@ import {
   TemplatesIcon,
   AnalyticsIcon,
   SettingsIcon,
-  DashboardLogoIcon,
   LineDivider,
 } from "./icon";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
+// import { getUserProfile } from "../stores/authStore";
 // import { usePathname } from "react";
 
 const navigation = [
   { name: "Home", href: "/dashboard/overview", icon: LinkIcon, current: true },
   {
     name: "Payment Pages",
-    href: "/dashboard/paymentpages",
+    href: "/dashboard/payment-links",
     icon: TemplatesIcon,
     current: false,
   },
   {
-    name: "Transactions",
+    name: "Payout Details",
     href: "/dashboard/transactions",
     icon: AnalyticsIcon,
     current: false,
@@ -68,17 +68,16 @@ const mobileNavigation = [
 ];
 const belowNavigation = [
   {
-    name: "Settings",
-    href: "/dashboard/settings",
-    icon: SettingsIcon,
-    current: true,
+    name: "Sign Out ",
+    href: "/dashboard/help",
+    icon: HelpIcon,
+    current: false,
   },
-  { name: "Help", href: "/dashboard/help", icon: HelpIcon, current: false },
 ];
 const userNavigation = [
   { name: "Navigation", href: "#" },
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
+  { name: "Payment Pages", href: "#" },
+  { name: "Payout", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -86,7 +85,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { WhiteLogo } from "./icons";
 
 DashboardLayout.propTypes = {
   children: PropTypes.node.isRequired,
@@ -94,11 +94,52 @@ DashboardLayout.propTypes = {
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [user, setUser] = useState(null); // Store user details
+  const [loading, setLoading] = useState(false); // Manage loading state
+  const [error, setError] = useState(null); // Manage error state
   const location = useLocation();
   const pathname = location.pathname;
   const logout = useAuthStore((state) => state.logout); // Get the logout function from your auth store
+  const getUserProfile = useAuthStore((state) => state.getUserProfile); // Get the logout function from your auth store
   console.log(pathname);
+
+  useEffect(() => {
+    console.log("effect");
+    
+    const fetchUserProfile = async () => {
+      try {
+        const userDetails = await getUserProfile(); // Fetch user details
+        setUser(userDetails); // Set user data
+      } catch (err) {
+        setError(err.message); // Set error if any
+      } finally {
+        setLoading(false); // Set loading to false after request completes
+      }
+    };
+
+    fetchUserProfile(); // Call the fetch function on component mount
+  }, []);
+
+  if (loading) {
+    return  <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    {/* Spinning Coin */}
+    <div className="relative">
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="absolute inset-0 flex items-center justify-center text-blue-500 text-xl font-extrabold">
+            M
+        </div>
+    </div>
+    {/* Loader Text */}
+    <p className="mt-4 text-lg text-gray-700 animate-pulse font-semibold">
+        Loading MansaPay...
+    </p>
+</div>; // Show a loading indicator while fetching data
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>; // Show error message if fetching fails
+  }
+
   return (
     <>
       {/* NAVIGATION MENU FOR MOBILE */}
@@ -197,15 +238,15 @@ export default function DashboardLayout({ children }) {
         {/* STATIC SIDEBAR FOR DESKTOP */}
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-48 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-grow flex-col overflow-y-auto bg-blue-900 pt-8">
+          <div className="flex flex-grow flex-col overflow-y-auto bg-blue-700 pt-8">
             <div className="flex flex-shrink-0 flex-col justify-center items-center px-4">
               <div className="logo-wrapper block mb-6">
-                <DashboardLogoIcon />
+                <WhiteLogo />
               </div>
 
-              <h3 className="text-white text-xl font-semibold block">
+              {/* <h3 className="text-white text-xl font-semibold block">
                 MansaPay
-              </h3>
+              </h3> */}
             </div>
             <div className="mt-10 flex justify-center items-center flex-1 flex-col">
               <nav className="flex flex-col items-start flex-1 space-y-8 px-2 pb-4 max-w-xs">
@@ -274,9 +315,12 @@ export default function DashboardLayout({ children }) {
             </button>
             <div className="flex flex-1 justify-between px-4 ">
               <div className="flex flex-1 items-center">
-                <h2 className="text-black text-opacity-80 lg:text-[28px] text-[15px] md:text-[20px]  font-medium font-['Poppins']">
-                  Welcome Back,{" "}
-                  <span className="capitalize font-extrabold"></span>
+                <h2 className="text-black text-opacity-80 lg:text-[28px] text-[15px] md:text-[20px] font-medium font-['Poppins']">
+                  Welcome Back
+                  <span className="font-bold">
+                    {" "}
+                    {user?.name || "User"}
+                  </span>, <span className="capitalize font-extrabold"></span>
                 </h2>
               </div>
               <div className="ml-4 flex items-center md:ml-6">

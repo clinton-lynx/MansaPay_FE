@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { create } from "zustand";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 // const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/api/auth" : "/api/auth";
-const API_URL = "https://cb1f-105-113-111-212.ngrok-free.app/api";
+const API_URL = `https://610a-102-88-81-202.ngrok-free.app/api`;
 
 axios.defaults.withCredentials = true;
 
@@ -16,8 +16,7 @@ export const useAuthStore = create((set) => ({
   message: null,
 
   signup: async ({ name, email, phone, password, password_confirmation }) => {
-    // Updated to match the new structure
-    set({ isLoading: true, error: null, message: null }); // Reset message
+    set({ isLoading: true, error: null, message: null });
     try {
       const response = await axios.post(`${API_URL}/signup`, {
         name,
@@ -26,78 +25,114 @@ export const useAuthStore = create((set) => ({
         password,
         password_confirmation,
       });
-      console.log(response);
-      console.log(response?.data.userid);
+  console.log(response)
       set({
         user: response?.data.userid,
         isAuthenticated: true,
         message: response.data.message,
         isLoading: false,
       });
+  
+      toast.success("Signup successful! Please verify your email."); // Show success toast
       return response.data.userid;
     } catch (error) {
-      set({
-        error: error.response.data.message || "Error signing up",
-        isLoading: false,
-      });
+      const errorMessage = error.response?.data?.message || "Error signing up";
+      set({ error: errorMessage, isLoading: false });
+  
+      toast.error(errorMessage); // Show error toast
       throw error;
     }
   },
-  verifyEmail: async (otp, userid) => {
+  
+
+verifyEmail: async (otp, userid) => {
+  set({ isLoading: true, error: null });
+  try {
+    const response = await axios.post(`${API_URL}/verifyotp`, {
+      otp,
+      userid,
+    });
+    set({
+      user: response.data.userid,
+      isAuthenticated: true,
+      isLoading: false,
+    });
+
+    toast.success("Email verified successfully!"); // Success feedback
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to verify email. Please try again.";
+    set({ error: errorMessage, isLoading: false });
+    toast.error(errorMessage); // Error feedback
+    throw error;
+  }
+},
+login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/verifyotp`, {
-        otp,
-        userid,
-      });
-      // Assuming the response includes a message or user data upon successful verification
-      set({
-        user: response.data.userid,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-      return response.data; // Return response for further handling
+        const response = await axios.post(`${API_URL}/login`, {
+            email,
+            password,
+        });
+        console.log(response);
+        const { token, userid } = response.data;
+
+        set({
+            isAuthenticated: true,
+            user: userid,
+            error: null,
+            isLoading: false,
+        });
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("userid", userid);
+
+        // Display success toast
+        toast.success("Login successful! Redirecting...");
+
+        console.log(token, userid);
     } catch (error) {
-      set({
-        error: error.response.data.message || "Error verifying email",
-        isLoading: false,
-      });
-      throw error; // Throw error to be caught in the component
+        const errorMessage = error.response?.data?.message || "Error logging in";
+        set({
+            error: errorMessage,
+            isLoading: false,
+        });
+
+        // Display error toast
+        toast.error(errorMessage);
+        throw error;
     }
-  },
-  login: async (email, password) => {
-    set({ isLoading: true, error: null });
+},
+  getUserProfile : async () => {
     try {
-      const response = await axios.post(`${API_URL}/login`, {
-        email,
-        password,
-      });
-      console.log(response);
-      // Assuming response contains the token and user ID
-      const { token, userid } = response.data;
+        const token = localStorage.getItem("token"); // Retrieve token from localStorage
+        const userid = localStorage.getItem("userid"); // Retrieve userid from localStorage
 
-      // Set the user ID and token in state
-      set({
-        isAuthenticated: true,
-        user: userid,
-        // token: token,  // You can add a token property in your store
-        error: null,
-        isLoading: false,
-      });
+        if (!token || !userid) {
+            throw new Error("Authentication details are missing");
+        }
 
-      // Optionally, store the token in localStorage for persistent authentication
-      localStorage.setItem("token", token);
-      localStorage.setItem("userid", userid);
-      console.log(token, userid);
+        const response = await axios.post(
+            `${API_URL}/getuserprofile`,
+            { userid },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Add token in Authorization header
+                },
+            }
+        );
+
+        if (response.data?.response) {
+            return response.data.userdetails; // Return user details
+        } else {
+            throw new Error("Failed to fetch user profile");
+        }
     } catch (error) {
-      set({
-        error: error.response?.data?.message || "Error logging in",
-        isLoading: false,
-      });
-      throw error;
+        console.error("Error fetching user profile:", error);
+        throw error;
     }
-  },
-
+},
   logout: async () => {
     set({ isLoading: true, error: null });
     try {

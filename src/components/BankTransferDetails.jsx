@@ -33,30 +33,48 @@ const BankTransferDetails = ({ formid, userData }) => {
     if (error) return <div>Error: {error}</div>;
 
     return transactionDetails ? (
-        <div className="mt-4 bg-gray-100 p-4 rounded">
-            <h4 className="text-lg font-semibold">Bank Transfer Details</h4>
-            <p><strong>Bank Name:</strong> {transactionDetails.bank_name}</p>
-            <p><strong>Account Number:</strong> {transactionDetails.account_number}</p>
-            <p><strong>Account Name:</strong> {transactionDetails.account_name}</p>
-            <p><strong>Amount Payable:</strong> {transactionDetails.transaction_amount_payable} {transactionDetails.currency.name}</p>
-
-            {/* Confirmation Button */}
+        <div className="mt-8 bg-white shadow-lg rounded-lg p-6">
+        <h4 className="text-2xl font-semibold text-gray-800 mb-6">Bank Transfer Details</h4>
+    
+        <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between">
+                <p className="text-gray-600 text-lg"><strong>Bank Name:</strong> {transactionDetails.bank_name}</p>
+            </div>
+    
+            <div className="flex flex-col sm:flex-row justify-between">
+                <p className="text-gray-600 text-lg"><strong>Account Number:</strong> {transactionDetails.account_number}</p>
+            </div>
+    
+            <div className="flex flex-col sm:flex-row justify-between">
+                <p className="text-gray-600 text-lg"><strong>Account Name:</strong> {transactionDetails.account_name}</p>
+            </div>
+    
+            <div className="flex flex-col sm:flex-row justify-between">
+                <p className="text-gray-600 text-lg">
+                    <strong>Amount Payable:</strong> {transactionDetails.transaction_amount_payable} {transactionDetails.currency.name}
+                </p>
+            </div>
+        </div>
+    
+        {/* Confirmation Button */}
+        <div className="mt-6">
             <button
                 onClick={handleConfirmPayment}
-                className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 mt-4"
+                className="w-full bg-blue-600 text-white p-4 rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out"
                 disabled={loading}
             >
                 {loading ? 'Confirming...' : 'I have made the payment'}
             </button>
-
-            {/* Confirmation Message */}
-            {confirmationMessage && (
-                <p className={`mt-4 ${confirmationMessage.includes("Successful") ? "text-green-600" : "text-red-600"}`}>
-                    {confirmationMessage}
-                </p>
-            )}
         </div>
-    ) : (
+    
+        {/* Confirmation Message */}
+        {confirmationMessage && (
+            <p className={`mt-6 text-lg font-semibold ${confirmationMessage.includes("Successful") ? "text-green-600" : "text-red-600"}`}>
+                {confirmationMessage}
+            </p>
+        )}
+    </div>
+        ) : (
         <div>No bank transfer details available.</div>
     );
 };

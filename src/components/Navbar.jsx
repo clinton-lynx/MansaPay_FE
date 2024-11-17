@@ -89,7 +89,7 @@ export const Navbar = () => {
                 // isExternal
                 as={Link}
                 className="text-sm font-normal text-default-900 bg-default-100 rounded-md"
-                href={"/sign-in"}
+                href={"/login"}
                 variant="flat"
               >
                 Log in
@@ -131,7 +131,7 @@ export const Navbar = () => {
                 // isExternal
                 as={Link}
                 className="text-[20px] font-semibold text-default-900 bg-default-100 rounded-md border-[#0069ff] border-[1px] border-solid py-7"
-                href={"/sign-in"}
+                href={"/login"}
                 variant="flat"
               >
                 Log in
