@@ -1,7 +1,7 @@
     import { useState } from 'react';
     import toast from "react-hot-toast";
     import { useNavigate } from 'react-router-dom';
-    import {usePaymentStore} from '../stores/paymentstore'; // Import payment store
+    import {usePaymentStore} from '../stores/paymentStore'; // Import payment store
 
     const CreatePaymentLink = () => {
         const navigate = useNavigate();

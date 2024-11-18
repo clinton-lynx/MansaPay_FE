@@ -121,7 +121,7 @@
 
 
 import { useEffect } from "react";
-import {usePaymentStore} from "../stores/paymentstore";
+import {usePaymentStore} from "../stores/paymentStore";
 
 const PaymentLinkManagement = () => {
 

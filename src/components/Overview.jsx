@@ -1,7 +1,7 @@
 import  { useEffect, useState } from "react";
 import {  Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import usePaymentStore from "../stores/paymentstore"; // Import your custom hook or store
+import usePaymentStore from "../stores/paymentStore"; // Import your custom hook or store
 import { Link } from "react-router-dom";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);

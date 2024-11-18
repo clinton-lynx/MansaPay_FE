@@ -2,7 +2,7 @@
 // export default PaymentComp;
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import usePaymentStore from "../stores/paymentstore";
+import usePaymentStore from "../stores/paymentStore";
 import PayerInfoAndPaymentMethod from "./PayerInfoAndPaymentMethod";
 import BankTransferDetails from "./BankTransferDetails";
 import CardPaymentForm from "./CardPaymentForm";
