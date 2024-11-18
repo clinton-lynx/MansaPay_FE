@@ -6,7 +6,7 @@ import usePaymentStore from "../stores/paymentStore";
 import PayerInfoAndPaymentMethod from "./PayerInfoAndPaymentMethod";
 import BankTransferDetails from "./BankTransferDetails";
 import CardPaymentForm from "./CardPaymentForm";
-import { FaFileAlt } from "react-icons/fa";
+
 
 const PaymentComp = () => {
   const { formid } = useParams();

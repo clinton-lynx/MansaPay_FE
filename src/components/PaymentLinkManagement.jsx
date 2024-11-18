@@ -122,6 +122,7 @@
 
 import { useEffect } from "react";
 import {usePaymentStore} from "../stores/paymentStore";
+import { Link } from "react-router-dom";
 
 const PaymentLinkManagement = () => {
 
@@ -181,30 +182,35 @@ console.log(paymentLinks);
           </tr>
         </thead>
         <tbody>
-          {paymentLinks.map((link) => (
-            <tr key={link.id} className="border-b">
-              <td className="py-3 px-4">{link.title}</td>
-              <td className="py-3 px-4">${link.price}</td>
-              <td className="py-3 px-4">
-                {new Date(link.created_at).toLocaleDateString()}
-              </td>
-              <td className="py-3 px-4">
-                {link.dueDate ? new Date(link.duedate).toLocaleDateString() : "N/A"}
-              </td>
-              <td className="py-3 px-4 flex">
-                <button 
-                  onClick={() => handleCopyLink(link.formid)} 
-                  className="mr-2 text-blue-600 hover:underline">
-                  Copy Link
-                </button>
-                <button 
-                  onClick={() => handleDelete(link.formid)} 
-                  className="text-red-600 hover:underline">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+        {paymentLinks.map((link) => (
+  <tr key={link.id} className="border-b hover:bg-gray-100">
+    <td className="py-3 px-4">
+      <Link to={`/dashboard/payment-details/${link.formid}`} className="text-blue-600 hover:underline">
+        {link.title}
+      </Link>
+    </td>
+    <td className="py-3 px-4">${link.price}</td>
+    <td className="py-3 px-4">{new Date(link.created_at).toLocaleDateString()}</td>
+    <td className="py-3 px-4">
+      {link.dueDate ? new Date(link.duedate).toLocaleDateString() : "N/A"}
+    </td>
+    <td className="py-3 px-4 flex">
+      <button 
+        onClick={() => handleCopyLink(link.formid)} 
+        className="mr-2 text-blue-600 hover:underline"
+      >
+        Copy Link
+      </button>
+      <button 
+        onClick={() => handleDelete(link.formid)} 
+        className="text-red-600 hover:underline"
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+))}
+
         </tbody>
       </table>
     </div>

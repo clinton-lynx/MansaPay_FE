@@ -91,6 +91,7 @@
             Authorization: `Bearer ${token}`,
           },
         });
+    console.log(response);
     
         if (response.data.response) {
           const { campaign, paymentmade } = response.data;
