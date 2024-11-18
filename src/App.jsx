@@ -97,7 +97,7 @@
 
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useAuthStore } from "./stores/AuthStore";
+import { useAuthStore } from "./stores/authStore";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";

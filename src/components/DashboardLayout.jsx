@@ -39,7 +39,7 @@ const navigation = [
   },
   {
     name: "Payout Details",
-    href: "/dashboard/transactions",
+    href: "/dashboard/payout-details",
     icon: AnalyticsIcon,
     current: false,
   },
@@ -95,7 +95,7 @@ DashboardLayout.propTypes = {
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null); // Store user details
-  const [loading, setLoading] = useState(false); // Manage loading state
+  const [loading, setLoading] = useState(true); // Manage loading state
   const [error, setError] = useState(null); // Manage error state
   const location = useLocation();
   const pathname = location.pathname;

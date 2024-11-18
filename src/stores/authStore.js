@@ -230,12 +230,12 @@ login: async (email, password) => {
       );
 
       if (response.data.response) {
-        alert("Bank details submitted successfully!");
+        toast.success("Bank details submitted successfully!");
       } else {
         alert("Submission failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting bank details:", error);
+      toast.error("Error submitting bank details:", error);
       alert("An error occurred. Please try again.");
     }
   },
