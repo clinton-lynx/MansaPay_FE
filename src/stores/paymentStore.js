@@ -2,7 +2,7 @@
   import { create } from "zustand";
   import axios from "axios";
 
-  const API_URL = `https://610a-102-88-81-202.ngrok-free.app/api`;
+  const API_URL = `https://ff8b-102-88-70-114.ngrok-free.app/api`;
 
 
   axios.defaults.withCredentials = true;
