@@ -3,10 +3,21 @@ import {  Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import usePaymentStore from "../stores/paymentStore"; // Import your custom hook or store
 import { Link } from "react-router-dom";
+import useDashboardStore from "../stores/dashboardStore";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
 
 const Overview = () => {
+
+
+  const { dashboardData, fetchDashboardData } = useDashboardStore();
+  const userId = localStorage.getItem('userid') // Replace with the actual userId
+  const token = localStorage.getItem("token") // Replace with the actual token
+
+  useEffect(() => {
+    fetchDashboardData(token, userId);
+    console.log(dashboardData);
+  }, [token, userId]);
   const { transactions, fetchTransactions } = usePaymentStore();
 console.log(transactions);
 
@@ -17,8 +28,7 @@ console.log(transactions);
   const [transferAmount, setTransferAmount] = useState("");
   const { balance, amountReceived, amountSent, payout, pendingPayments } = usePaymentStore();
 
-  // Replace this with your actual token retrieval logic
-  const token = "your-token-here"; 
+  // Chart Data
 
   const weeklyIncomeData = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], // Labels for the past 7 days
@@ -44,7 +54,7 @@ console.log(transactions);
       <i className="fas fa-wallet"></i> {/* Replace with an appropriate wallet icon */}
     </div>
     <h2 className="text-lg font-semibold">Total Balance</h2>
-    <p className="text-2xl font-bold text-blue-600">₦{balance}</p>
+    <p className="text-2xl font-bold text-blue-600">₦{dashboardData.totalBalance}</p>
   </div>
 
   {/* Successful Payments Card */}
@@ -53,7 +63,7 @@ console.log(transactions);
       <i className="fas fa-check-circle"></i> {/* Replace with a checkmark icon */}
     </div>
     <h2 className="text-lg font-semibold">Successful Payments</h2>
-    <p className="text-xl font-bold text-green-500">₦{amountReceived}</p>
+    <p className="text-xl font-bold text-green-500"> {dashboardData.successfulPayments.count} (₦{dashboardData.successfulPayments.totalAmount})</p>
   </div>
 
   {/* Pending Payments Card */}
@@ -62,7 +72,7 @@ console.log(transactions);
       <i className="fas fa-hourglass-half"></i> {/* Replace with a pending/hourglass icon */}
     </div>
     <h2 className="text-lg font-semibold">Pending Payments</h2>
-    <p className="text-xl font-bold text-yellow-500">₦{pendingPayments}</p>
+    <p className="text-xl font-bold text-yellow-500"> {dashboardData.pendingPayments.count} (₦{dashboardData.pendingPayments.totalAmount})</p>
   </div>
 </div>
   {/* </div> */}
@@ -77,10 +87,14 @@ console.log(transactions);
   {/* Bank Card Section */}
   <div>
     <h3 className="text-lg font-semibold">Bank Balance</h3>
-    <p className="text-2xl font-bold mt-2">₦{balance}</p>
+    <p className="text-2xl font-bold mt-2">₦{dashboardData.totalBalance}</p>
     <div className="mt-4 flex items-center justify-between">
       <p className="text-sm">Account Number:</p>
-      <p className="font-semibold">1234 5678 9101 1121</p>
+      <p className="font-semibold">{dashboardData.accountNumber}</p>
+    </div>
+    <div className="mt-4 flex items-center justify-between">
+      <p className="text-sm">Bank Name:</p>
+      <p className="font-semibold">{dashboardData.bankName}</p>
     </div>
   </div>
 
@@ -115,7 +129,7 @@ console.log(transactions);
                   {transaction.beneficiary || "Unknown Beneficiary"}
                 </span>
                 <span className={transaction.amount < 0 ? "text-red-500" : "text-green-500"}>
-                  {transaction.amount < 0 ? `-$${Math.abs(transaction.amount)}` : `+$${transaction.amount}`}
+                  {transaction.amount < 0 ? `₦${Math.abs(transaction.amount)}` : `₦${transaction.amount}`}
                 </span>
               </li>
             ))

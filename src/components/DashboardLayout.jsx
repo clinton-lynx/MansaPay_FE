@@ -16,7 +16,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {
-  Logo,
   LinkIcon,
   HelpIcon,
   TemplatesIcon,
@@ -26,11 +25,12 @@ import {
 } from "./icon";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
+import { Logo } from "./icons.jsx";
 // import { getUserProfile } from "../stores/authStore";
 // import { usePathname } from "react";
 
 const navigation = [
-  { name: "Home", href: "/dashboard/overview", icon: LinkIcon, current: true },
+  { name: "Home", href: "/dashboard", icon: LinkIcon, current: true },
   {
     name: "Payment Pages",
     href: "/dashboard/payment-links",
@@ -45,40 +45,34 @@ const navigation = [
   },
 ];
 const mobileNavigation = [
-  { name: "Links", href: "/dashboard/links", icon: LinkIcon, current: true },
+  { name: "Home", href: "/dashboard", icon: LinkIcon, current: true },
   {
-    name: "Templates",
-    href: "/dashboard/templates",
+    name: "Payment Pages",
+    href: "/dashboard/payment-links",
     icon: TemplatesIcon,
     current: false,
   },
   {
-    name: "Analytics",
-    href: "/dashboard/analytics",
+    name: "Payout Details",
+    href: "/dashboard/payout-details",
     icon: AnalyticsIcon,
-    current: false,
-  },
-  {
-    name: "Settings",
-    href: "/dashboard/settings",
-    icon: SettingsIcon,
     current: true,
   },
-  { name: "Help", href: "/dashboard/help", icon: HelpIcon, current: false },
+  { name: "Sign Out", href: "/sign-out", icon: HelpIcon, current: false },
 ];
 const belowNavigation = [
   {
     name: "Sign Out ",
-    href: "/dashboard/help",
+    href: "/sign-out",
     icon: HelpIcon,
     current: false,
   },
 ];
 const userNavigation = [
-  { name: "Navigation", href: "#" },
-  { name: "Payment Pages", href: "#" },
-  { name: "Payout", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Payment Pages", href: "/payment-pages" },
+  { name: "Payout", href: "/payout-details" },
+  { name: "Sign out", href: "/sign-out" },
 ];
 
 function classNames(...classes) {
@@ -199,7 +193,7 @@ export default function DashboardLayout({ children }) {
 
                   <div className="flex flex-shrink-0 items-center px-4">
                     <Logo />
-                    <h1 className="ml-4  font-semibold text-white">MansaPay</h1>
+                 
                   </div>
                   <div className="mt-8 h-0 flex-1 overflow-y-auto">
                     <nav className="space-y-1 px-2">
@@ -211,8 +205,8 @@ export default function DashboardLayout({ children }) {
                             to={item.href}
                             className={classNames(
                               isActive
-                                ? "bg-indigo-800 text-dashboard-green"
-                                : "text-indigo-100 hover:bg-indigo-600",
+                                ? "bg-indigo-800 text-white"
+                                : "text-indigo-100 hover:bg-blue-600",
                               "group flex items-center px-2 py-4 text-base font-medium rounded-md"
                             )}
                           >
@@ -258,7 +252,7 @@ export default function DashboardLayout({ children }) {
                       to={item.href}
                       className={classNames(
                         isActive
-                          ? " mt-5 w-full bg-white text-dashboard-green "
+                          ? " mt-5 w-full bg-white text-blue-700"
                           : " mt-5  w-full text-red-500 hover:bg-[#96dcd9]",
                         "group flex justify-start  items-center text-white px-8 py-2 text-sm font-medium rounded-md text-left"
                       )}
@@ -266,7 +260,7 @@ export default function DashboardLayout({ children }) {
                     >
                       <item.icon
                         fill={isActive ? "#287774" : "#fff"}
-                        className="mr-12 h-26 w-16 flex-shrink-0 text-indigo-300"
+                        className="mr-12 ml-5 h-26 w-16 flex-shrink-0 text-indigo-300"
                         aria-hidden="true"
                       />
                       {item.name}

@@ -2,7 +2,7 @@
   import { create } from "zustand";
   import axios from "axios";
 
-  const API_URL = `https://ff8b-102-88-70-114.ngrok-free.app/api`;
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 
   axios.defaults.withCredentials = true;
@@ -214,6 +214,49 @@
         set({ error: error.response?.data?.message || error.message, loading: false });
       }
     },
+
+    getCampaignDetails: async (formId) => {
+      set({ loading: true, error: null });
+  
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token is missing. Please log in again.");
+        }
+  
+        // Fetch campaign details from the API
+        const response = await axios.post(`${API_URL}/getcampaignstatus`,{ formid: formId}, {
+          headers: {
+            Authorization: `Bearer ${token}`
+                    },
+        });
+  
+        const data = response.data;
+  console.log(data);
+        // Process and store the campaign details
+        const campaignData = {
+          response: data.response,
+          paymentmade: data.paymentmade,
+          campaign: data.campaign,
+          totalcampaignamountreceived: data.totalamountreceived,
+        };
+  return campaignData;
+        // Set the campaign details in the store
+        set({
+          campaignDetails: campaignData,
+          loading: false,
+        });
+  
+        // Pass data to another function for further use
+         } catch (error) {
+        console.error("Error fetching campaign details:", error);
+        set({
+          error: error.response?.data?.message || error.message,
+          loading: false,
+        });
+      }
+    },
+
     // Function to initiate bank transfer
     initiateBankTransfer: async (transferData) => {
       set({ loading: true, error: null });
@@ -264,7 +307,7 @@
                   },
               }
           );
-
+          console.log("Confirm payment response: ", response.data);
           if (response.data.response && response.data.data.success) {
               set({
                   confirmationMessage: response.data.data.data.status_reason || response.data.message,

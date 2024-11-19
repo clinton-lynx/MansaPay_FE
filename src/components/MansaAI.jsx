@@ -166,174 +166,180 @@
 
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useParams } from 'react-router-dom';
+import usePaymentStore from '../stores/paymentStore';
 
-const Chatbot = () => {
+const Chatbot = ({campaignDetails}) => {
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+
+
+
+
   // Example campaign context (you could dynamically assign this based on the current campaign)
-  const campaignDetails = {
-    response: true,
-    paymentmade: [
-        {
-            id: 23,
-            userid: "4Tbxvo45mCLtadP",
-            formid: "0Jo9YCwqAU4u9n0vZ",
-            payer_name: "Olayori",
-            payer_email: "ola@gmail.com",
-            reference: "639390892873dhjdk",
-            paid: 1,
-            payment_method: "Bank Transfer",
-            amount: 300,
-            created_at: "2024-11-18T08:38:50.000000Z",
-            updated_at: "2024-11-18T08:38:50.000000Z"
-        },
-        {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Clinton",
-          "payer_email":"otyeudtsdla@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Card Payment",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Wuraola",
-          "payer_email":"frefersfd@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Ganiyat",
-          "payer_email":"ryddudicfhdfc@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"heiritage",
-          "payer_email":"yeydujdj@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":21,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"victoria",
-          "payer_email":"oetsfevdla@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":22,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Precious",
-          "payer_email":"olyeyryea@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":29,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Ben Francis",
-          "payer_email":"oleddda@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Ogunmepon sharafa",
-          "payer_email":"oyeyedla@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Card Payment",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"OgunMepsn sharafa",
-          "payer_email":"ola@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"green",
-          "payer_email":"olsddsa@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Card Payment",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       }
-        // additional payment objects
-    ],
-    campaign: {
-        id: 47,
-        userid: "4Tbxvo45mCLtadP",
-        formid: "0Jo9YCwqAU4u9n0vZ",
-        title: "Magni odit enim impe",
-        description: "Dolores eum quidem m",
-        price: "18",
-        duedate: "2025-01-25",
-        created_at: "2024-11-18T08:38:50.000000Z",
-        updated_at: "2024-11-18T08:38:50.000000Z"
-    },
-    totalcampaignamountreceived: 500000
-};
+//   const campaignDetails = {
+//     response: true,
+//     paymentmade: [
+//         {
+//             id: 23,
+//             userid: "4Tbxvo45mCLtadP",
+//             formid: "0Jo9YCwqAU4u9n0vZ",
+//             payer_name: "Olayori",
+//             payer_email: "ola@gmail.com",
+//             reference: "639390892873dhjdk",
+//             paid: 1,
+//             payment_method: "Bank Transfer",
+//             amount: 300,
+//             created_at: "2024-11-18T08:38:50.000000Z",
+//             updated_at: "2024-11-18T08:38:50.000000Z"
+//         },
+//         {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"Clinton",
+//           "payer_email":"otyeudtsdla@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Card Payment",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"Wuraola",
+//           "payer_email":"frefersfd@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"Ganiyat",
+//           "payer_email":"ryddudicfhdfc@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"heiritage",
+//           "payer_email":"yeydujdj@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":21,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"victoria",
+//           "payer_email":"oetsfevdla@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":22,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"Precious",
+//           "payer_email":"olyeyryea@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":29,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"Ben Francis",
+//           "payer_email":"oleddda@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"Ogunmepon sharafa",
+//           "payer_email":"oyeyedla@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Card Payment",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"OgunMepsn sharafa",
+//           "payer_email":"ola@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Bank Transfer",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        },
+//        {
+//           "id":23,
+//           "userid":"4Tbxvo45mCLtadP",
+//           "formid":"0Jo9YCwqAU4u9n0vZ",
+//           "payer_name":"green",
+//           "payer_email":"olsddsa@gmail.com",
+//           "reference":"639390892873dhjdk",
+//           "paid":1,
+//           "payment_method":"Card Payment",
+//           "amount":300,
+//           "created_at":"2024-11-18T08:38:50.000000Z",
+//           "updated_at":"2024-11-18T08:38:50.000000Z"
+//        }
+//         // additional payment objects
+//     ],
+//     campaign: {
+//         id: 47,
+//         userid: "4Tbxvo45mCLtadP",
+//         formid: "0Jo9YCwqAU4u9n0vZ",
+//         title: "Magni odit enim impe",
+//         description: "Dolores eum quidem m",
+//         price: "18",
+//         duedate: "2025-01-25",
+//         created_at: "2024-11-18T08:38:50.000000Z",
+//         updated_at: "2024-11-18T08:38:50.000000Z"
+//     },
+//     totalcampaignamountreceived: 500000
+// };
 
 
 

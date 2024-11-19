@@ -1,102 +1,3 @@
-// import { Bar } from "react-chartjs-2";
-// import { FaEdit, FaShareAlt, FaTrash } from "react-icons/fa";
-// import Chatbot from "./MansaAI";
-
-// const PaymentLinkDetails = () => {
-//   const dummyData = {
-//     title: "Subscription Payment",
-//     amount: "$99.00",
-//     dueDate: "2024-12-01",
-//     link: "https://pay.com/payment/123abc",
-//     description: "Monthly subscription for premium access.",
-//   };
-
-//   return (
-//     <div className="container mx-auto py-10 px-6 min-h-screen bg-gray-100">
-//     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-   
-//       {/* Transactions Chart Section */}
-//       <div className="lg:col-span-2 bg-white rounded-lg shadow-lg p-6">
-//         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-//           Transactions Chart
-//         </h2>
-//         <div className="h-96">
-//           <Bar
-//             data={{
-//               labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-//               datasets: [
-//                 {
-//                   label: "Daily Transactions (₦)",
-//                   data: [5000, 7000, 6000, 8000, 10000, 7000, 11000],
-//                   backgroundColor: "rgba(54, 162, 235, 0.6)",
-//                   borderColor: "rgba(54, 162, 235, 1)",
-//                   borderWidth: 1,
-//                 },
-//               ],
-//             }}
-//             options={{
-//               responsive: true,
-//               maintainAspectRatio: false,
-//             }}
-//           />
-//         </div>
-
-        
-//       </div>
-//      {/* Payment Details Section */}
-//      <div className="lg:col-span-2 bg-white rounded-lg shadow-lg p-6">
-//         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-//           Payment Link Details
-//         </h2>
-//         <div className="mb-4">
-//           <p className="text-sm font-medium text-gray-500">Title</p>
-//           <p className="text-lg font-semibold text-gray-800">{dummyData.title}</p>
-//         </div>
-//         <div className="mb-4">
-//           <p className="text-sm font-medium text-gray-500">Amount</p>
-//           <p className="text-lg font-semibold text-green-600">{dummyData.amount}</p>
-//         </div>
-//         <div className="mb-4">
-//           <p className="text-sm font-medium text-gray-500">Due Date</p>
-//           <p className="text-lg font-semibold text-gray-800">{dummyData.dueDate}</p>
-//         </div>
-//         <div className="mb-4">
-//           <p className="text-sm font-medium text-gray-500">Payment Link</p>
-//           <a
-//             href={dummyData.link}
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             className="text-blue-500 underline break-all"
-//           >
-//             {dummyData.link}
-//           </a>
-//         </div>
-//         <div className="mb-6">
-//           <p className="text-sm font-medium text-gray-500">Description</p>
-//           <p className="text-gray-700">{dummyData.description}</p>
-//         </div>
-//         <div className="flex justify-between">
-//           <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-//             <FaEdit /> Edit
-//           </button>
-//           <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600">
-//             <FaShareAlt /> Share
-//           </button>
-//           <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600">
-//             <FaTrash /> Delete
-//           </button>
-//         </div>
-//       </div>
-  
-//       {/* Mansa AI Chatbot Section */}
-//     <Chatbot />
-//     </div>
-//   </div>
-  
-//   );
-// };
-
-// export default PaymentLinkDetails;
 
 import { useEffect, useState } from "react";
 import { FaEdit, FaShareAlt, FaTrash, FaDownload } from "react-icons/fa";
@@ -108,13 +9,34 @@ import usePaymentStore from "../stores/paymentStore";
 const PaymentLinkDetails = () => {
   const { fetchPaymentDetails } = usePaymentStore();
   const { formid } = useParams();
-  const [campaignDetails, setCampaignDetails] = useState(null);
+  const [campaignDetails, setCampaignDetails] = useState({ paymentmade: [] });
+  const [campaignAiDetails, setCampaignAiDetails] = useState([]);
   console.log(formid);
   const [payers, setPayers] = useState([]);
   console.log(formid);
   const [showModal, setShowModal] = useState(false);
   const userid = localStorage.getItem("userid");
   console.log(userid);
+
+
+  const { getCampaignDetails } = usePaymentStore();
+  useEffect(() => { 
+    const getCampaignAiDetails = async ()=>{
+
+      try {
+console.log("called");
+
+        const detailsAi = await getCampaignDetails(formid);
+        console.log(detailsAi);
+        setCampaignAiDetails(detailsAi)
+      } catch (error) {
+        console.error("Failed to fetch campaign details", error);
+      } 
+    }
+
+    getCampaignAiDetails();
+  }, [getCampaignDetails,  formid]);
+
 
   useEffect(() => { 
     const getCampaignDetails = async ()=>{
@@ -215,187 +137,16 @@ console.log("called");
   //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
   //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
   // ];
-  const campaignTableDetails = {
-    response: true,
-    paymentmade: [
-        {
-            id: 23,
-            userid: "4Tbxvo45mCLtadP",
-            formid: "0Jo9YCwqAU4u9n0vZ",
-            payer_name: "Olayori",
-            payer_email: "ola@gmail.com",
-            reference: "639390892873dhjdk",
-            paid: 1,
-            payment_method: "Bank Transfer",
-            amount: 300,
-            created_at: "2024-11-18T08:38:50.000000Z",
-            updated_at: "2024-11-18T08:38:50.000000Z"
-        },
-        {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Clinton",
-          "payer_email":"otyeudtsdla@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Card Payment",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Wuraola",
-          "payer_email":"frefersfd@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Ganiyat",
-          "payer_email":"ryddudicfhdfc@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"heiritage",
-          "payer_email":"yeydujdj@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":21,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"victoria",
-          "payer_email":"oetsfevdla@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":22,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Precious",
-          "payer_email":"olyeyryea@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":29,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Ben Francis",
-          "payer_email":"oleddda@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"Ogunmepon sharafa",
-          "payer_email":"oyeyedla@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Card Payment",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"OgunMepsn sharafa",
-          "payer_email":"ola@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Bank Transfer",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       },
-       {
-          "id":23,
-          "userid":"4Tbxvo45mCLtadP",
-          "formid":"0Jo9YCwqAU4u9n0vZ",
-          "payer_name":"green",
-          "payer_email":"olsddsa@gmail.com",
-          "reference":"639390892873dhjdk",
-          "paid":1,
-          "payment_method":"Card Payment",
-          "amount":300,
-          "created_at":"2024-11-18T08:38:50.000000Z",
-          "updated_at":"2024-11-18T08:38:50.000000Z"
-       }
-        // additional payment objects
-    ],
-    campaign: {
-        id: 47,
-        userid: "4Tbxvo45mCLtadP",
-        formid: "0Jo9YCwqAU4u9n0vZ",
-        title: "Magni odit enim impe",
-        description: "Dolores eum quidem m",
-        price: "18",
-        duedate: "2025-01-25",
-        created_at: "2024-11-18T08:38:50.000000Z",
-        updated_at: "2024-11-18T08:38:50.000000Z"
-    },
-    totalcampaignamountreceived: 500000
-};
-
-  // import { fetchPayers } from "./paymentStore"; // Assuming this handles API calls
-
-  // const getPayersData = async () => {
-  //   try {
-  //     const response = await fetchPayers(userid, formid); // Fetch data using appropriate parameters
-  //     if (response && response.paymentmade) {
-  //       const formattedData = formatPayerData(response);
-  //       setTableData(formattedData); // Update state or table data
-  //     } else {
-  //       console.error("No payer data available.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching payer data:", error);
-  //   }
-  // };
-  
+  const campaignTableDetails =campaignAiDetails;
+console.log(campaignAiDetails);
+console.log(campaignTableDetails);
 
 
   const formatPayerData = (campaignDetails) => {
+    if (!campaignDetails || !Array.isArray(campaignDetails.paymentmade)) {
+      console.error("Invalid paymentmade data:", campaignDetails?.paymentmade);
+      return [];
+    }
     return campaignDetails.paymentmade.map((payer) => ({
       name: payer.payer_name,
       email: payer.payer_email,
@@ -407,7 +158,7 @@ console.log("called");
   useEffect(() => {
     const formattedPayers = formatPayerData(campaignTableDetails);
     setPayers(formattedPayers); // Set formatted payers to state
-  }, []);
+  }, [getCampaignDetails, campaignTableDetails]);
 
   const generatePDF = () => {
     if (!payers.length) {
@@ -549,7 +300,7 @@ console.log("called");
   </button>
 </div>
         {/* Mansa AI Chatbot Section */}
-        <Chatbot />
+        <Chatbot campaignDetails={campaignAiDetails} />
       </div>
 
       {/* Modal for Full Payer List */}

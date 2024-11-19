@@ -4,6 +4,15 @@
     import {usePaymentStore} from '../stores/paymentStore'; // Import payment store
 
     const CreatePaymentLink = () => {
+      const [showNotification, setShowNotification] = useState(false);
+
+      const handleCopyLink = () => {
+        navigator.clipboard.writeText(paymentLink);
+        setShowNotification(true);
+        // Hide the notification after 2 seconds
+        setTimeout(() => setShowNotification(false), 2000);
+      };
+
         const navigate = useNavigate();
         const user = localStorage.getItem('userid');
         const { createPaymentLink, loading } = usePaymentStore(); // Get store functions and state
@@ -134,22 +143,28 @@
           
               {paymentLink && (
                 <div className="mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-                  <h3 className="text-lg font-semibold text-blue-600 mb-4">Payment Link:</h3>
-                  <div className="flex items-center space-x-4">
-                    <input
-                      type="text"
-                      value={paymentLink}
-                      readOnly
-                      className="flex-grow p-3 border border-gray-300 rounded-lg"
-                    />
-                    <button
-                      onClick={() => navigator.clipboard.writeText(paymentLink)}
-                      className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
-                    >
-                      Copy Link
-                    </button>
-                  </div>
+                <h3 className="text-lg font-semibold text-blue-600 mb-4">Payment Link:</h3>
+                <div className="flex flex-wrap items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                  <input
+                    type="text"
+                    value={paymentLink}
+                    readOnly
+                    className="flex-grow p-3 border border-gray-300 rounded-lg w-full sm:w-auto"
+                  />
+                  <button
+                    onClick={handleCopyLink}
+                    className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition w-full sm:w-auto"
+                  >
+                    Copy Link
+                  </button>
                 </div>
+          
+                {showNotification && (
+                  <div className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg shadow-md transition-opacity duration-500 ease-out">
+                    Link copied to clipboard!
+                  </div>
+                )}
+              </div>
               )}
             </div>
           </div>

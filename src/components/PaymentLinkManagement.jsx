@@ -171,48 +171,50 @@ console.log(paymentLinks);
       </div>
 
       {/* Table for payment links */}
-      <table className="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden">
-        <thead>
-          <tr>
-            <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Name</th>
-            <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Amount</th>
-            <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Date Created</th>
-            <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Due Date</th>
-            <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        {paymentLinks.map((link) => (
-  <tr key={link.id} className="border-b hover:bg-gray-100">
-    <td className="py-3 px-4">
-      <Link to={`/dashboard/payment-details/${link.formid}`} className="text-blue-600 hover:underline">
-        {link.title}
-      </Link>
-    </td>
-    <td className="py-3 px-4">${link.price}</td>
-    <td className="py-3 px-4">{new Date(link.created_at).toLocaleDateString()}</td>
-    <td className="py-3 px-4">
-      {link.dueDate ? new Date(link.duedate).toLocaleDateString() : "N/A"}
-    </td>
-    <td className="py-3 px-4 flex">
-      <button 
-        onClick={() => handleCopyLink(link.formid)} 
-        className="mr-2 text-blue-600 hover:underline"
-      >
-        Copy Link
-      </button>
-      <button 
-        onClick={() => handleDelete(link.formid)} 
-        className="text-red-600 hover:underline"
-      >
-        Delete
-      </button>
-    </td>
-  </tr>
-))}
+      <div className="overflow-x-auto">
+  <table className="min-w-full bg-white border border-gray-300 rounded-lg">
+    <thead>
+      <tr>
+        <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Name</th>
+        <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Amount</th>
+        <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Date Created</th>
+        <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Due Date</th>
+        <th className="py-3 px-4 text-left bg-gray-200 text-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {paymentLinks.map((link) => (
+        <tr key={link.id} className="border-b hover:bg-gray-100">
+          <td className="py-3 px-4">
+            <Link to={`/dashboard/payment-details/${link.formid}`} className="text-blue-600 hover:underline">
+              {link.title}
+            </Link>
+          </td>
+          <td className="py-3 px-4">${link.price}</td>
+          <td className="py-3 px-4">{new Date(link.created_at).toLocaleDateString()}</td>
+          <td className="py-3 px-4">
+            {link.dueDate ? new Date(link.duedate).toLocaleDateString() : "N/A"}
+          </td>
+          <td className="py-3 px-4 flex">
+            <button 
+              onClick={() => handleCopyLink(link.formid)} 
+              className="mr-2 text-blue-600 hover:underline"
+            >
+              Copy Link
+            </button>
+            <button 
+              onClick={() => handleDelete(link.formid)} 
+              className="text-red-600 hover:underline"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
-        </tbody>
-      </table>
     </div>
   );
 };

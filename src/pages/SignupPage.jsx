@@ -1,49 +1,148 @@
 import { Navbar } from "../components/SignupNavbar";
 import { useState } from "react";
 import { useAuthStore } from "../stores/authStore"; // Adjust path
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
     const [errors, setErrors] = useState({});
+    const [fullname, setFullname] = useState("");  // State for fullname input
+    const [email, setEmail] = useState("");  // State for email input
+    const [phone, setPhone] = useState("");  // State for phone input
+    const [password, setPassword] = useState("");  // State for password input
+    const [confirmPassword, setConfirmPassword] = useState("");  // State for confirm password input
+    const navigate = useNavigate();  // Initialize the navigate function from react-router-dom
+    const [loading, setLoading] = useState(false);  // State to manage loading status
 
-    const validateForm = async (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const newErrors = {};
+//   const validateForm = async (event) => {
+//     console.log("Loading state:", loading);  // Check if this is being set correctly
 
-        if (!form.fullname.value) newErrors.fullname = "Full Name is required";
-        if (!form.email.value) newErrors.email = "Email is required";
-        if (!form.phone.value) newErrors.phone = "Phone Number is required";
-        if (!form.password.value) newErrors.password = "Password is required";
-        if (form.password.value !== form.confirmPassword.value)
-            newErrors.confirmPassword = "Passwords do not match";
+//       event.preventDefault();
+//       const newErrors = {};
 
-        setErrors(newErrors);
+//     // Validate inputs
+//     if (!fullname) newErrors.fullname = "Full Name is required";
+//     if (!email) newErrors.email = "Email is required";
+//     if (!phone) newErrors.phone = "Phone Number is required";
+//     if (!password) newErrors.password = "Password is required";
+//     if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match";
 
-        if (Object.keys(newErrors).length === 0) {
-            try {
-                const signup = useAuthStore.getState().signup;
-                const userid = await signup({
-                    name: form.fullname.value,
-                    email: form.email.value,
-                    phone: form.phone.value,
-                    password: form.password.value,
-                    password_confirmation: form.confirmPassword.value,
-                });
+//     setErrors(newErrors);
+//     setLoading(true);  // Show loading indicator
+//     console.log("Loading state:", loading);  // Check
+//     // If no errors, proceed with signup
+//     if (Object.keys(newErrors).length === 0) {
+//         setLoading(true);  // Show loading indicator
+//         console.log("Loading state:", loading);  // Check if this is being set correctly
+
+//         try {
+//         const signup = useAuthStore.getState().signup;
+//         const userid = await signup({
+//           name: fullname,
+//           email: email,
+//           phone: phone,
+//           password: password,
+//           password_confirmation: confirmPassword,
+//         });
+
+//         if (userid) {
+//             localStorage.setItem("userid", userid);
+//             toast.success("Account created! Please verify your email.");
+//             navigate("/verify-email");
             
-                // Store userid in localStorage
-                localStorage.setItem("userid", userid);
-                
-                console.log(`Signup successful: ${userid}`);
-                
-                // Redirect or show success message
-            } catch (error) {
-                console.error("Signup error:", error);
-                setErrors({ server: error?.response?.data?.message || "Signup failed" });
-            }
-            
-        }
-    };
+// toast.success("Signup successful! Please verify your email.");  // Show success toast
+// // Clear input fields after successful signup
+// setFullname("");
+// setEmail("");
+// setPhone("");
+// setPassword("");
+// setConfirmPassword("");
+//         } else {
+//             console.log("User ID was not returned, check the signup response.");
+//             toast.error("Unexpected error. Please try again.");
+//         }
 
+
+
+
+//       } catch (error) {
+//         console.error("Signup error:", error);
+//         setErrors({
+//           server: error?.response?.data?.message || "Signup failed",
+//         });
+//       } finally {
+//         setLoading(false);  // Hide loading indicator after the process completes
+//       }
+//     }
+//   };
+
+
+const validateFields = () => {
+  const validationErrors = {};
+
+  // Validate inputs
+  if (!fullname.trim()) validationErrors.fullname = "Full Name is required.";
+  
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email.trim()) validationErrors.email = "Email is required.";
+  else if (!emailPattern.test(email)) validationErrors.email = "Please enter a valid email address.";
+
+  if (!phone.trim()) validationErrors.phone = "Phone number is required.";
+
+  if (!password) validationErrors.password = "Password is required.";
+  else if (password.length < 8) validationErrors.password = "Password must be at least 8 characters long.";
+
+  if (password !== confirmPassword) validationErrors.confirmPassword = "Passwords do not match.";
+
+  setErrors(validationErrors);
+  return Object.keys(validationErrors).length === 0;
+};
+
+const handleSignUp = async (event) => {
+  event.preventDefault();
+  
+  // Run validation before proceeding
+  if (!validateFields()) {
+    toast.error("Please fill out all required fields correctly.");
+    return;
+  }
+
+  setLoading(true);  // Show loading indicator
+
+  try {
+    const signup = useAuthStore.getState().signup;
+    const userid = await signup({
+      name: fullname,
+      email: email,
+      phone: phone,
+      password: password,
+      password_confirmation: confirmPassword
+    });
+
+    if (userid) {
+      localStorage.setItem("userid", userid);
+      toast.success("Account created! Please verify your email.");
+      navigate("/verify-email");
+
+      // Clear input fields after successful signup
+      setFullname("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setConfirmPassword("");
+    } else {
+      console.log("User ID was not returned, check the signup response.");
+      toast.error("Unexpected error. Please try again.");
+    }
+  } catch (error) {
+    console.error("Signup error:", error);
+    setErrors({
+      server: error?.response?.data?.message || "Signup failed",
+    });
+  } finally {
+    setLoading(false);  // Hide loading indicator after the process completes
+  }
+};
     return (
         <>
             <div>
@@ -53,7 +152,7 @@ const SignupPage = () => {
                 <div className="flex-1 flex items-center justify-center p-6">
                     <form
                         className="w-full max-w-md text-base md:text-sm"
-                        onSubmit={validateForm}
+                        onSubmit={handleSignUp}
                     >
                         <h1 className="font-bold text-2xl md:text-4xl mb-6 capitalize">
                             Get the best crowdfunding experience.
@@ -72,6 +171,8 @@ const SignupPage = () => {
                                 id="fullname"
                                 type="text"
                                 placeholder="Full Name"
+                                value={fullname}  // Set value to state
+                                onChange={(e) => setFullname(e.target.value)}  // Update state on change
                             />
                             {errors.fullname && (
                                 <p className="text-red-500 text-xs md:text-sm italic">
@@ -93,6 +194,8 @@ const SignupPage = () => {
                                 id="email"
                                 type="email"
                                 placeholder="Email"
+                                value={email}  // Set value to state
+                                onChange={(e) => setEmail(e.target.value)}  // Update state on change
                             />
                             {errors.email && (
                                 <p className="text-red-500 text-xs md:text-sm italic">
@@ -114,6 +217,8 @@ const SignupPage = () => {
                                 id="phone"
                                 type="tel"
                                 placeholder="Phone Number"
+                                value={phone}  // Set value to state
+                                onChange={(e) => setPhone(e.target.value)}  // Update state on change
                             />
                             {errors.phone && (
                                 <p className="text-red-500 text-xs italic">{errors.phone}</p>
@@ -133,6 +238,8 @@ const SignupPage = () => {
                                 id="password"
                                 type="password"
                                 placeholder="Password"
+                                value={password}  // Set value to state
+                                onChange={(e) => setPassword(e.target.value)}  // Update state on change
                             />
                             {errors.password && (
                                 <p className="text-red-500 text-xs italic">{errors.password}</p>
@@ -152,6 +259,8 @@ const SignupPage = () => {
                                 id="confirmPassword"
                                 type="password"
                                 placeholder="Confirm Password"
+                                value={confirmPassword}  // Set value to state
+                                onChange={(e) => setConfirmPassword(e.target.value)}  // Update state on change
                             />
                             {errors.confirmPassword && (
                                 <p className="text-red-500 text-xs italic">
@@ -160,18 +269,17 @@ const SignupPage = () => {
                             )}
                         </div>
                         <div className="flex items-center justify-between">
-                            <button
-                                className="bg-blue-500 text-sm hover:bg-blue-700 text-white  py-2 px-4 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                type="submit"
-                            >
-                                Sign Up
-                            </button>
-                        </div>
-                        {errors.server && (
-                            <p className="text-red-500 text-xs md:text-sm italic">
-                                {errors.server}
-                            </p>
-                        )}
+                              {/* Signup Button */}
+      <button
+        className="bg-blue-500 text-sm hover:bg-blue-700 text-white py-2 px-4 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        type="submit"
+        disabled={loading}  // Disable button when loading
+      >
+        {loading ? "Signing Up..." : "Sign Up"} {/* Display loading text */}
+      </button>
+</div>
+      {/* Display server error message if any */}
+      {errors.server && <p>{errors.server}</p>}
                         <p className="mt-2 text-center text-gray-600">
                             Already have an account?{" "}
                             <a

@@ -3,7 +3,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 // const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/api/auth" : "/api/auth";
-const API_URL = `https://ff8b-102-88-70-114.ngrok-free.app/api`;
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 axios.defaults.withCredentials = true;
 
@@ -28,7 +28,7 @@ export const useAuthStore = create((set) => ({
   console.log(response)
       set({
         user: response?.data.userid,
-        isAuthenticated: true,
+        isAuthenticated: false,
         message: response.data.message,
         isLoading: false,
       });
@@ -54,7 +54,7 @@ verifyEmail: async (otp, userid) => {
     });
     set({
       user: response.data.userid,
-      isAuthenticated: true,
+      isAuthenticated: false,
       isLoading: false,
     });
 
