@@ -30,7 +30,7 @@ const EmailVerificationPage = () => {
       inputRefs.current[index - 1]?.focus();
     }
   };
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     const verificationCode = code.join("");
     const userid = localStorage.getItem("userid");

@@ -135,46 +135,11 @@ login: async (email, password) => {
         throw error;
     }
 },
-  logout: async () => {
-    set({ isLoading: true, error: null });
-    try {
-      // Retrieve token from local storage
-      const token = localStorage.getItem("token");
-      console.log(token);
-      // Send the logout request to the API
-      const response = await axios.post(
-        `${API_URL}/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Attach token to the header
-          },
-        }
-      );
-      if (response.status === 200) {
-        // Clear user data, token, and reset state after successful logout
-        localStorage.removeItem("token"); // Clear token from local storage
-        set({
-          user: null,
-          isAuthenticated: false,
-          error: null,
-          isLoading: false,
-        });
-      }
-    } catch (error) {
-      // Set error if logout request fails, but still clear token and user data
-      set({ error: "Error logging out", isLoading: false });
-    } finally {
-      // Ensure that token and sensitive data are cleared regardless of logout request success
-      localStorage.removeItem("token");
-      set({
-        user: null,
-        isAuthenticated: false,
-        error: null,
-        isLoading: false,
-      });
-    }
-  },
+logout: () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userid");
+  set({ isAuthenticated: false, user: null, token: null });
+},
 
   forgotPassword: async (email) => {
     set({ isLoading: true, error: null });

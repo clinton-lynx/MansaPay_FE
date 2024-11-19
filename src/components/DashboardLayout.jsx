@@ -253,8 +253,8 @@ export default function DashboardLayout({ children }) {
                       className={classNames(
                         isActive
                           ? " mt-5 w-full bg-white text-blue-700"
-                          : " mt-5  w-full text-red-500 hover:bg-[#96dcd9]",
-                        "group flex justify-start  items-center text-white px-8 py-2 text-sm font-medium rounded-md text-left"
+                          : " mt-5  w-full text-white hover:bg-[#1a1b58]",
+                        "group flex justify-start  items-center  px-8 py-2 text-sm font-medium rounded-md text-left"
                       )}
                       // className={isActive ? " mt-5 w-full bg-white text-dashboard-green" : " mt-5  w-full text-indigo-100 hover:bg-indigo-600 " }
                     >
