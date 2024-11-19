@@ -30,34 +30,33 @@ const EmailVerificationPage = () => {
       inputRefs.current[index - 1]?.focus();
     }
   };
-
   const handleSubmit = async (e) => {
-    console.log("verify");
-    
     e.preventDefault();
     const verificationCode = code.join("");
     const userid = localStorage.getItem("userid");
-    console.log(userid);
-    
+
+    if (!userid) {
+        toast.error("No valid user ID found. Please sign up again.");
+        return;
+    }
+
     try {
-        // Start loading
         useAuthStore.setState({ isLoading: true });
 
         await verifyEmail(verificationCode, userid);
         navigate("/login");
         toast.success("Email verified successfully");
     } catch (error) {
-        // Handle error
         if (error.response && error.response.status === 400) {
             toast.error("Invalid verification code. Please try again.");
         } else {
             toast.error("Something went wrong. Please try again.");
         }
     } finally {
-        // Stop loading
         useAuthStore.setState({ isLoading: false });
     }
 };
+
   return (
     <>
       <Navbar />

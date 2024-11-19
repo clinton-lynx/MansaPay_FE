@@ -14,35 +14,37 @@ export const useAuthStore = create((set) => ({
   isLoading: false,
   isCheckingAuth: true,
   message: null,
-
   signup: async ({ name, email, phone, password, password_confirmation }) => {
     set({ isLoading: true, error: null, message: null });
     try {
-      const response = await axios.post(`${API_URL}/signup`, {
-        name,
-        email,
-        phone,
-        password,
-        password_confirmation,
-      });
-  console.log(response)
-      set({
-        user: response?.data.userid,
-        isAuthenticated: false,
-        message: response.data.message,
-        isLoading: false,
-      });
-  
-      toast.success("Signup successful! Please verify your email."); // Show success toast
-      return response.data.userid;
+        const response = await axios.post(`${API_URL}/signup`, {
+            name,
+            email,
+            phone,
+            password,
+            password_confirmation,
+        });
+
+        // Save `userid` to state but only store in localStorage after successful response
+        const { userid } = response.data;
+        set({
+            user: userid,
+            isAuthenticated: false,
+            message: response.data.message,
+            isLoading: false,
+        });
+
+        localStorage.setItem("userid", userid); // Store `userid` only on success
+        toast.success("Signup successful! Please verify your email.");
+        return userid;
     } catch (error) {
+      localStorage.removeItem("userid"); // Clear stale `userid`
       const errorMessage = error.response?.data?.message || "Error signing up";
       set({ error: errorMessage, isLoading: false });
-  
-      toast.error(errorMessage); // Show error toast
+      toast.error(errorMessage);
       throw error;
     }
-  },
+},
   
 
 verifyEmail: async (otp, userid) => {
