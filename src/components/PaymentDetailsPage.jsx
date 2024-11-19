@@ -17,7 +17,11 @@ const PaymentLinkDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const userid = localStorage.getItem("userid");
   console.log(userid);
-
+  const protocol = window.location.protocol; // e.g., 'https:'
+  const hostname = window.location.hostname; // e.g., 'example.com'
+  const port = window.location.port ? `:${window.location.port}` : ''; // e.g., '' or ':3000'
+  
+  const baseUrl = `${protocol}//${hostname}${port}`;
 
   const { getCampaignDetails } = usePaymentStore();
   useEffect(() => { 
@@ -235,7 +239,7 @@ console.log(campaignTableDetails);
           </div>
           <div className="mb-4">
             <p className="text-sm font-medium text-gray-500">Payment Link</p>
-            <a href={`https://mansa-pay-fe.vercel.app/pay/${campaignDetails?.formid}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline break-all">
+            <a href={`${baseUrl}/pay/${campaignDetails?.formid}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline break-all">
               {`mansapay.com/pay/${campaignDetails?.formid}`}
             </a>
           </div>

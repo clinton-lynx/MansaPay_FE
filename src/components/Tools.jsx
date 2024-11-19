@@ -20,7 +20,7 @@ const techStack = [
   {
     category: "Integrations",
     tools: [
-      { name: "OpenAI GPT", description: "Powers AI-driven insights and customer support.", img: "/openai.png" },
+      { name: "Gemini AI", description: "Powers AI-driven insights and customer support.", img: "/gemini.png" },
       { name: "Payaza API", description: "Manages secure payments and transactions.", img: "/payaza.svg" },
     ],
   },

@@ -99,19 +99,23 @@ const validateFields = () => {
 };
 
 const handleSignUp = async (event) => {
-  event.preventDefault();
-  
-  // Run validation before proceeding
-  if (!validateFields()) {
-    toast.error("Please fill out all required fields correctly.");
-    return;
-  }
-
-  setLoading(true);  // Show loading indicator
-
-  try {
+    event.preventDefault();
+    console.log("hit");
+    
+    
+    // Run validation before proceeding
+    if (!validateFields()) {
+        toast.error("Please fill out all required fields correctly.");
+        return;
+    }
+    
+    setLoading(true);  // Show loading indicator
+    // return console.log("red");
+    setTimeout(() => {
+    try {
+    
     const signup = useAuthStore.getState().signup;
-    const userid = await signup({
+    const userid =  signup({
       name: fullname,
       email: email,
       phone: phone,
@@ -125,11 +129,11 @@ const handleSignUp = async (event) => {
       navigate("/verify-email");
 
       // Clear input fields after successful signup
-      setFullname("");
-      setEmail("");
-      setPhone("");
-      setPassword("");
-      setConfirmPassword("");
+    //   setFullname("");
+    //   setEmail("");
+    //   setPhone("");
+    //   setPassword("");
+    //   setConfirmPassword("");
     } else {
       console.log("User ID was not returned, check the signup response.");
       toast.error("Unexpected error. Please try again.");
@@ -142,6 +146,7 @@ const handleSignUp = async (event) => {
   } finally {
     setLoading(false);  // Hide loading indicator after the process completes
   }
+}, 5000);  // Delay of 5 seconds
 };
     return (
         <>

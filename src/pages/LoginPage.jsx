@@ -4,45 +4,53 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuthStore } from "../stores/authStore";
 import { useState } from "react";
 import { Navbar } from "../components/SignupNavbar";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const login = useAuthStore((state) => state.login);
+    const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
         const form = event.target;
         const newErrors = {};
-
+    
+        // Validate form inputs
         if (!form.email.value) newErrors.email = "Email is required";
         if (!form.password.value) newErrors.password = "Password is required";
-
+    
         setErrors(newErrors);
-
-        if (Object.keys(newErrors).length === 0) {
-            try {
-                setLoading(true);
-                await login(form.email.value, form.password.value);
-
-                // Notify success
-                toast.success("Login successful!");
-                
-                // Redirect on success
-                setTimeout(() => {
-                    window.location.href = "/dashboard";
-                }, 1000); // Add a delay for a smoother transition
-            } catch (error) {
-                console.error("Login failed:", error);
-                toast.error("Login failed. Please try again.");
-                setErrors({ server: error.message });
-            } finally {
-                setLoading(false);
+    
+        // Simulate a delay before processing the login
+        setLoading(true);
+        setTimeout(async () => {
+            if (Object.keys(newErrors).length === 0) {
+                try {
+                    await login(form.email.value, form.password.value);
+    
+                    // Notify success
+                    toast.success("Login successful!");
+    
+                    // Redirect on success
+                    setTimeout(() => {
+                        navigate("/dashboard");
+                    }, 1000); // Add a delay for smoother transition
+                } catch (error) {
+                    console.error("Login failed:", error);
+                    toast.error("Login failed. Please try again.");
+                    setErrors({ server: error.message });
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                setLoading(false); // Turn off loading if there are validation errors
             }
-        }
+        }, 6000); // Delay of 5 seconds before proceeding with the logic
     };
-
+    
     return (
         <>
             <ToastContainer />

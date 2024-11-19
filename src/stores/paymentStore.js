@@ -1,6 +1,7 @@
 
   import { create } from "zustand";
   import axios from "axios";
+import { toast } from "react-toastify";
 
   const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -296,7 +297,7 @@
     },
 
     confirmPayment: async (reference) => {
-      set({ loading: true, confirmationMessage: "" });
+      set({ loading: false, confirmationMessage: "" });
       try {
           const response = await axios.post(
               `${API_URL}/confirmbanktransfer`,
@@ -346,7 +347,7 @@
         console.log(response);
         
         if (response.data.response) {
-            alert('Payment successful!');
+            toast.success('Payment successful!');
         } else {
             console.error("Payment failed:", response.data);
             alert(`Payment failed: ${response.data.data.message}`);

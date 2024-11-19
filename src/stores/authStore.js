@@ -69,7 +69,7 @@ verifyEmail: async (otp, userid) => {
   }
 },
 login: async (email, password) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: false, error: null });
     try {
         const response = await axios.post(`${API_URL}/login`, {
             email,
@@ -78,21 +78,21 @@ login: async (email, password) => {
         console.log(response);
         const { token, userid } = response.data;
 
+        
+        localStorage.setItem("token", token);
+        localStorage.setItem("userid", userid);
+        
+        // Display success toast
+        toast.success("Login successful! Redirecting...");
+        
+        console.log(token, userid);
         set({
             isAuthenticated: true,
             user: userid,
             error: null,
             isLoading: false,
         });
-
-        localStorage.setItem("token", token);
-        localStorage.setItem("userid", userid);
-
-        // Display success toast
-        toast.success("Login successful! Redirecting...");
-
-        console.log(token, userid);
-    } catch (error) {
+      } catch (error) {
         const errorMessage = error.response?.data?.message || "Error logging in";
         set({
             error: errorMessage,

@@ -132,15 +132,16 @@ console.log(userid);
           {paymentMethod === "Bank Transfer" ? (
             <BankTransferDetails formid={formid} userData={userData} />
           ) : (
-            <CardPaymentForm userData={userData} setUserData={setUserData} />
+            <><CardPaymentForm userData={userData} setUserData={setUserData} />
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 mt-4"
+              disabled={submissionLoading}
+            >
+              {submissionLoading ? "Processing..." : "Complete Payment"}
+            </button></>
           )}
-          <button
-            onClick={handleSubmit}
-            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 mt-4"
-            disabled={submissionLoading}
-          >
-            {submissionLoading ? "Processing..." : "Complete Payment"}
-          </button>
+       
         </div>
       )}
     </div>
