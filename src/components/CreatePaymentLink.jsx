@@ -5,7 +5,11 @@
 
     const CreatePaymentLink = () => {
       const [showNotification, setShowNotification] = useState(false);
+      const protocol = window.location.protocol; // e.g., 'https:'
+const hostname = window.location.hostname; // e.g., 'example.com'
+const port = window.location.port ? `:${window.location.port}` : ''; // e.g., '' or ':3000'
 
+const baseUrl = `${protocol}//${hostname}${port}`;
       const handleCopyLink = () => {
         navigator.clipboard.writeText(paymentLink);
         setShowNotification(true);
@@ -55,7 +59,7 @@
           const { formId, error } = usePaymentStore.getState();
           console.log(formId);
           if (formId) {
-              setPaymentLink(`http://localhost:5173/pay/${formId}`); // Adjust this URL accordingly
+              setPaymentLink(`${baseUrl}/pay/${formId}`); // Adjust this URL accordingly
               toast.success("Payment link created successfully!");
       
               // Reset the form inputs
