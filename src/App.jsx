@@ -186,9 +186,9 @@ function App() {
         <Route
           path="/pay/:formid"
           element={
-            <ProtectedRoute>
+     
               <PaymentPage />
-            </ProtectedRoute>
+
           }
         />
         <Route
