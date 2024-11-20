@@ -138,6 +138,7 @@ login: async (email, password) => {
 logout: () => {
   localStorage.removeItem("token");
   localStorage.removeItem("userid");
+  
   set({ isAuthenticated: false, user: null, token: null });
 },
 

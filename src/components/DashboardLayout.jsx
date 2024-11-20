@@ -20,15 +20,14 @@ import {
   HelpIcon,
   TemplatesIcon,
   AnalyticsIcon,
-  SettingsIcon,
+
   LineDivider,
 } from "./icon";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
 import { Logo } from "./icons.jsx";
 // import { getUserProfile } from "../stores/authStore";
 // import { usePathname } from "react";
-
 const navigation = [
   { name: "Home", href: "/dashboard", icon: LinkIcon, current: true },
   {
@@ -58,21 +57,43 @@ const mobileNavigation = [
     icon: AnalyticsIcon,
     current: true,
   },
-  { name: "Sign Out", href: "/sign-out", icon: HelpIcon, current: false },
+  {
+    name: "Sign Out",
+    href: "#",  // Keep it as '#' or any placeholder, as the link won't be used.
+    icon: HelpIcon,
+    current: false,
+    onClick: () => {
+      // Call the logout function when clicked
+      useAuthStore.getState().logout(); 
+  
+    },
+  }
 ];
 const belowNavigation = [
   {
-    name: "Sign Out ",
-    href: "/sign-out",
+    name: "Sign Out",
+    href: "#",  // Keep it as '#' or any placeholder, as the link won't be used.
     icon: HelpIcon,
     current: false,
-  },
+    onClick: () => {
+      // Call the logout function when clicked
+      useAuthStore.getState().logout(); 
+    },
+  }
 ];
 const userNavigation = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Payment Pages", href: "/payment-pages" },
   { name: "Payout", href: "/payout-details" },
-  { name: "Sign out", href: "/sign-out" },
+  {
+    name: "Sign Out",
+    href: "#",  // Keep it as '#' or any placeholder, as the link won't be used.
+    icon: HelpIcon,
+    current: false,
+    onClick: () => {
+      // Call the logout function when clicked
+      useAuthStore.getState().logout(); 
+    }, },
 ];
 
 function classNames(...classes) {
@@ -87,6 +108,7 @@ DashboardLayout.propTypes = {
 };
 
 export default function DashboardLayout({ children }) {
+  const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null); // Store user details
   const [loading, setLoading] = useState(true); // Manage loading state
@@ -203,6 +225,14 @@ export default function DashboardLayout({ children }) {
                           <Link
                             key={item.name}
                             to={item.href}
+                            onClick={(e) => {
+                              if (item.name === "Sign Out") {
+                                e.preventDefault(); // Prevent default navigation for Sign Out
+                                item.onClick(); 
+                                navigate('/login')// Trigger the logout function
+                              }
+                              // You can handle other navigation logic here
+                            }}
                             className={classNames(
                               isActive
                                 ? "bg-indigo-800 text-white"
@@ -250,6 +280,14 @@ export default function DashboardLayout({ children }) {
                     <Link
                       key={item.name}
                       to={item.href}
+                      onClick={(e) => {
+                        if (item.name === "Sign Out") {
+                          e.preventDefault(); // Prevent default navigation for Sign Out
+                          item.onClick();
+                          navigate('/login') // Trigger the logout function
+                        }
+                        // You can handle other navigation logic here
+                      }}
                       className={classNames(
                         isActive
                           ? " mt-5 w-full bg-white text-blue-700"
@@ -276,6 +314,14 @@ export default function DashboardLayout({ children }) {
                     <Link
                       key={item.name}
                       to={item.href}
+                      onClick={(e) => {
+                        if (item.name === "Sign Out") {
+                          e.preventDefault(); // Prevent default navigation for Sign Out
+                          item.onClick();
+                          navigate('/login') // Trigger the logout function
+                        }
+                        // You can handle other navigation logic here
+                      }}
                       className={classNames(
                         isActive
                           ? " mt-5 w-full bg-white text-dashboard-green "
