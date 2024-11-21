@@ -69,7 +69,7 @@ const PaymentLinkManagement = () => {
               {link.title}
             </Link>
           </td>
-          <td className="py-3 px-4">${link.price}</td>
+          <td className="py-3 px-4">₦{link.price}</td>
           <td className="py-3 px-4">{new Date(link.created_at).toLocaleDateString()}</td>
           <td className="py-3 px-4">
             {link.dueDate ? new Date(link.duedate).toLocaleDateString() : "N/A"}

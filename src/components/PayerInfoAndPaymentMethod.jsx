@@ -29,7 +29,7 @@ const PayerInfoAndPaymentMethod = ({ userData, setUserData, onSelectPaymentMetho
   };
 
   const validatePhone = (phone) => {
-    const phoneRegex = /^[0-9]{10}$/; // Adjust as needed for your phone number format
+    const phoneRegex = /^[0-9]{11}$/; // Adjust as needed for your phone number format
     return phoneRegex.test(phone);
   };
 

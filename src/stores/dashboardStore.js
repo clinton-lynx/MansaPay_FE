@@ -27,7 +27,7 @@ const useDashboardStore = create((set) => ({
       );
   
       const data = response.data;
-  // console.log(data);
+  console.log(data);
       if (data.response) {
         const parsedData = {
           totalBalance: data.userdetails.original.userdetails.acc_bal,
@@ -35,11 +35,11 @@ const useDashboardStore = create((set) => ({
           bankName: data.userdetails.original.userdetails.bank_name,
           successfulPayments: {
             count: data.completed_payment.length,
-            totalAmount: data.completed_payment.reduce((sum, payment) => sum + payment.amount, 0),
+            totalAmount: data.completed_payment.reduce((sum, payment) => sum + Number(payment?.amount || 0), 0),
           },
           pendingPayments: {
             count: data.pending_payment.length,
-            totalAmount: data.pending_payment.reduce((sum, payment) => sum + payment.amount, 0),
+            totalAmount: data.pending_payment.reduce((sum, payment) => sum + Number(payment?.amount || 0), 0),
           },
         };
             set({ dashboardData: parsedData });

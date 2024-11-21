@@ -72,7 +72,8 @@ const handleSubmit = async (e) => {
               Verify Your Email
             </h2>
             <p className="text-center text-gray-700 mb-6">
-              Enter the 6-digit code sent to your email address.
+            Enter the 6-digit code sent to your email address. If you don&apos;t see the email in your inbox, 
+            please check your <strong>Spam</strong> or <strong>Junk</strong> folder.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
