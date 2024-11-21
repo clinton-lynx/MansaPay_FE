@@ -113,7 +113,7 @@ getUserProfile: async (navigate) => {
       if (!token || !userid) {
           throw new Error("Authentication details are missing, Kindly o back to log in or refresh this page ");
       }
-      console.log('reaal');
+      // console.log('reaal');
       
       const response = await axios.post(
           `${API_URL}/getuserprofile`,
@@ -126,7 +126,7 @@ getUserProfile: async (navigate) => {
       );
 
       if (response.data?.response) {
-        console.log(response);
+        // console.log(response);
         
           return response.data.userdetails; // Return user details
       } else {
@@ -137,7 +137,7 @@ getUserProfile: async (navigate) => {
 
       // Handle specific errors like token expiration (401 Unauthorized)
       if (error.response?.status === 401) {
-        console.log("reall");
+        console.log("wetin you find reach here egbon");
         
           toast.error("Session expired. Please log in again.");
           localStorage.removeItem("token"); // Clear invalid token
