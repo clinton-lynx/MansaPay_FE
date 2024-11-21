@@ -70,6 +70,7 @@ verifyEmail: async (otp, userid) => {
     throw error;
   }
 },
+
 login: async (email, password) => {
     set({ isLoading: false, error: null });
     try {
@@ -104,35 +105,52 @@ login: async (email, password) => {
         throw error;
     }
 },
-  getUserProfile : async () => {
-    try {
-        const token = localStorage.getItem("token"); // Retrieve token from localStorage
-        const userid = localStorage.getItem("userid"); // Retrieve userid from localStorage
+getUserProfile: async (navigate) => {
+  try {
+      const token = localStorage.getItem("token"); // Retrieve token from localStorage
+      const userid = localStorage.getItem("userid"); // Retrieve userid from localStorage
 
-        if (!token || !userid) {
-            throw new Error("Authentication details are missing");
-        }
+      if (!token || !userid) {
+          throw new Error("Authentication details are missing");
+      }
+      console.log('reaal');
+      
+      const response = await axios.post(
+          `${API_URL}/getuserprofile`,
+          { userid },
+          {
+              headers: {
+                  Authorization: `Bearer ${token}`, // Add token in Authorization header
+              },
+          }
+      );
 
-        const response = await axios.post(
-            `${API_URL}/getuserprofile`,
-            { userid },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Add token in Authorization header
-                },
-            }
-        );
+      if (response.data?.response) {
+        console.log(response);
+        
+          return response.data.userdetails; // Return user details
+      } else {
+          throw new Error("Failed to fetch user profile");
+      }
+  } catch (error) {
+      console.error("Error fetching user profile:", error);
 
-        if (response.data?.response) {
-            return response.data.userdetails; // Return user details
-        } else {
-            throw new Error("Failed to fetch user profile");
-        }
-    } catch (error) {
-        console.error("Error fetching user profile:", error);
-        throw error;
-    }
+      // Handle specific errors like token expiration (401 Unauthorized)
+      if (error.response?.status === 401) {
+        console.log("reall");
+        
+          toast.error("Session expired. Please log in again.");
+          localStorage.removeItem("token"); // Clear invalid token
+          localStorage.removeItem("userid"); // Clear invalid user ID
+          navigate("/login"); // Redirect to login page
+      } else {
+          toast.error("Failed to fetch user profile. Please try again.");
+      }
+
+      throw error; // Re-throw the error if needed
+  }
 },
+
 logout: () => {
   localStorage.removeItem("token");
   localStorage.removeItem("userid");

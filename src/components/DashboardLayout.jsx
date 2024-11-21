@@ -124,7 +124,7 @@ export default function DashboardLayout({ children }) {
     
     const fetchUserProfile = async () => {
       try {
-        const userDetails = await getUserProfile(); // Fetch user details
+        const userDetails = await getUserProfile(navigate); // Fetch user details
         setUser(userDetails); // Set user data
       } catch (err) {
         setError(err.message); // Set error if any
