@@ -120,7 +120,7 @@ export default function DashboardLayout({ children }) {
   console.log(pathname);
 
   useEffect(() => {
-    console.log("effect");
+    // console.log("effect");
     
     const fetchUserProfile = async () => {
       try {

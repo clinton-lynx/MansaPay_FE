@@ -21,7 +21,7 @@ const baseUrl = `${protocol}//${hostname}${port}`;
         const user = localStorage.getItem('userid');
         const { createPaymentLink, loading } = usePaymentStore(); // Get store functions and state
         // const { user } = useAuthStore(); // Get store functions and state
-        console.log(user)
+        // console.log(user)
         const [formData, setFormData] = useState({
             title: '',
             description: '',
@@ -52,12 +52,12 @@ const baseUrl = `${protocol}//${hostname}${port}`;
               price: formData.amount,
               dueDate: formData.dueDate,
           };
-          console.log(paymentData);
+          // console.log(paymentData);
           await createPaymentLink(paymentData); // Await the store function
       
           // Get the updated state from the payment store
           const { formId, error } = usePaymentStore.getState();
-          console.log(formId);
+          // console.log(formId);
           if (formId) {
               setPaymentLink(`${baseUrl}/pay/${formId}`); // Adjust this URL accordingly
               toast.success("Payment link created successfully!");

@@ -4,7 +4,7 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useEffect } from "react";
-import { usePaymentStore } from "../stores/paymentstore.js";
+import { usePaymentStore } from "../stores/paymentStore.js";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 

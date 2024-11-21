@@ -16,10 +16,10 @@ const Overview = () => {
 
   useEffect(() => {
     fetchDashboardData(token, userId);
-    console.log(dashboardData);
+    // console.log(dashboardData);
   }, [token, userId]);
   const { transactions, fetchTransactions } = usePaymentStore();
-console.log(transactions);
+// console.log(transactions);
 
   useEffect(() => {
 

@@ -33,7 +33,7 @@ import { toast } from "react-toastify";
             },
           }
         );
-        console.log(response);
+        // console.log(response);
         
         if (response.data.success) {
           set((state) => ({
@@ -92,7 +92,7 @@ import { toast } from "react-toastify";
             Authorization: `Bearer ${token}`,
           },
         });
-    console.log(response);
+    // console.log(response);
     
         if (response.data.response) {
           const { campaign, paymentmade } = response.data;
@@ -125,14 +125,14 @@ import { toast } from "react-toastify";
     // Function to fetch payment details
     fetchPaymentDetails: async (userid, formid) => {
       set({ loading: true, error: null });
-      console.log("Fetching payment details for userid: ", userid, " and formId: ", formid);
+      // console.log("Fetching payment details for userid: ", userid, " and formId: ", formid);
 
       try {
             const response = await axios.post(`${API_URL}/getcampaignbyid`, {
               formid: formid,
           });
 
-          console.log("Payment details response: ", response.data);
+          // console.log("Payment details response: ", response.data);
           set({ loading: false });
 
           // Check if the response contains the expected data
@@ -151,7 +151,7 @@ import { toast } from "react-toastify";
   fetchTransactions: async () => {
     const token = localStorage.getItem("token");
     const userid = localStorage.getItem("userid");
-    console.log(token);
+    // console.log(token);
     try {
       const response = await axios.post(`${API_URL}/gettransactionhistory`,{userid}, {
         headers: {
@@ -175,13 +175,13 @@ import { toast } from "react-toastify";
       try {
         const token = localStorage.getItem("token");
         const userid = localStorage.getItem("userid");
-        console.log(token);
+        // console.log(token);
         const response = await axios.post(`${API_URL}/getcampaigns`,{userid}, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-  console.log(response);
+  // console.log(response);
 
         if (response.data && response.data.response) {
           set({ paymentLinks: response.data.campaigns, loading: false });
@@ -233,7 +233,7 @@ import { toast } from "react-toastify";
         });
   
         const data = response.data;
-  console.log(data);
+  // console.log(data);
         // Process and store the campaign details
         const campaignData = {
           response: data.response,
@@ -281,7 +281,7 @@ import { toast } from "react-toastify";
           }
         );
 
-        console.log("Bank Transfer Response: ", response.data);
+        // console.log("Bank Transfer Response: ", response.data);
 
         // Store transaction details if response is successful
         if (response.data && response.data.response) {
@@ -308,7 +308,7 @@ import { toast } from "react-toastify";
                   },
               }
           );
-          console.log("Confirm payment response: ", response.data);
+          // console.log("Confirm payment response: ", response.data);
           if (response.data.response && response.data.data.success) {
               set({
                   confirmationMessage: response.data.data.data.status_reason || response.data.message,
@@ -329,7 +329,7 @@ import { toast } from "react-toastify";
   }
   },
   submitPayment: async (paymentData) => {
-    console.log(paymentData);
+    // console.log(paymentData);
     
     // Split expiry date into month and year
     const { expiryDate, ...rest } = paymentData;
@@ -340,11 +340,11 @@ import { toast } from "react-toastify";
         expiryMonth,
         expiryYear,
     };
-  console.log(formattedData);
+  // console.log(formattedData);
 
     try {
         const response = await axios.post(`${API_URL}/cardpayment`, formattedData);
-        console.log(response);
+        // console.log(response);
         
         if (response.data.response) {
             toast.success('Payment successful!');
@@ -377,7 +377,7 @@ import { toast } from "react-toastify";
         );
 
         // Log response data to see the payout result
-        console.log('Payout response:', response.data);
+        // console.log('Payout response:', response.data);
 
         // Update state based on the response if needed
         set({ payoutResponse: response.data });

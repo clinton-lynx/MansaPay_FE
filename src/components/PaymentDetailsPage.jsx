@@ -11,12 +11,12 @@ const PaymentLinkDetails = () => {
   const { formid } = useParams();
   const [campaignDetails, setCampaignDetails] = useState({ paymentmade: [] });
   const [campaignAiDetails, setCampaignAiDetails] = useState([]);
-  console.log(formid);
+  // console.log(formid);
   const [payers, setPayers] = useState([]);
   console.log(formid);
   const [showModal, setShowModal] = useState(false);
   const userid = localStorage.getItem("userid");
-  console.log(userid);
+  // console.log(userid);
   const protocol = window.location.protocol; // e.g., 'https:'
   const hostname = window.location.hostname; // e.g., 'example.com'
   const port = window.location.port ? `:${window.location.port}` : ''; // e.g., '' or ':3000'
@@ -28,10 +28,10 @@ const PaymentLinkDetails = () => {
     const getCampaignAiDetails = async ()=>{
 
       try {
-console.log("called");
+// console.log("called");
 
         const detailsAi = await getCampaignDetails(formid);
-        console.log(detailsAi);
+        // console.log(detailsAi);
         setCampaignAiDetails(detailsAi)
       } catch (error) {
         console.error("Failed to fetch campaign details", error);
@@ -46,10 +46,10 @@ console.log("called");
     const getCampaignDetails = async ()=>{
 
       try {
-console.log("called");
+// console.log("called");
 
         const details = await fetchPaymentDetails(userid, formid);
-        console.log(details);
+        // console.log(details);
         setCampaignDetails(details)
       } catch (error) {
         console.error("Failed to fetch campaign details", error);
@@ -142,8 +142,8 @@ console.log("called");
   //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
   // ];
   const campaignTableDetails =campaignAiDetails;
-console.log(campaignAiDetails);
-console.log(campaignTableDetails);
+// console.log(campaignAiDetails);
+// console.log(campaignTableDetails);
 
 
   const formatPayerData = (campaignDetails) => {
@@ -181,17 +181,6 @@ console.log(campaignTableDetails);
     doc.save("payers-list.pdf");
   };
 
-
-  // const generatePDF = () => {
-  //   const doc = new jsPDF();
-  //   doc.text("List of Payers", 20 , 10);
-
-  //   payers.forEach((payer, index) => {
-  //     doc.text(`${index + 1}. ${payer.name} | ${payer.email} | ${payer.amount} | ${payer.time} | ${payer.method}`, 20, 20 + (index + 1) * 10);
-  //   });
-
-  //   doc.save("payers-list.pdf");
-  // };
 
   return (
     <div className="container mx-auto py-10 px-6 min-h-screen bg-gray-100">

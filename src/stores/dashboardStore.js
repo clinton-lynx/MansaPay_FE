@@ -27,7 +27,7 @@ const useDashboardStore = create((set) => ({
       );
   
       const data = response.data;
-  console.log(data);
+  // console.log(data);
       if (data.response) {
         const parsedData = {
           totalBalance: data.userdetails.original.userdetails.acc_bal,

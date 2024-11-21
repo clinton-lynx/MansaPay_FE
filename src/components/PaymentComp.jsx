@@ -28,10 +28,10 @@ const PaymentComp = () => {
   const [step, setStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState("");
   const userid = localStorage.getItem("userid");
-console.log(userid);
+// console.log(userid);
 
   useEffect(() => {
-    console.log(formid);
+    // console.log(formid);
     
     const getPaymentDetails = async () => {
       try {

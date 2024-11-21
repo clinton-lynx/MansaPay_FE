@@ -77,7 +77,6 @@ login: async (email, password) => {
             email,
             password,
         });
-        console.log(response);
         const { token, userid } = response.data;
 
         
@@ -87,7 +86,6 @@ login: async (email, password) => {
         // Display success toast
         toast.success("Login successful! Redirecting...");
         
-        console.log(token, userid);
         set({
             isAuthenticated: true,
             user: userid,
@@ -182,7 +180,7 @@ logout: () => {
       accountname: formData.accountName,
       bankcode: formData.bankCode,
     };
-    console.log(dataToSend);
+
     // Retrieve token from local storage
     const token = localStorage.getItem("token");
 

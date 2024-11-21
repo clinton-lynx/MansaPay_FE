@@ -14,68 +14,6 @@ const SignupPage = () => {
     const navigate = useNavigate();  // Initialize the navigate function from react-router-dom
     const [loading, setLoading] = useState(false);  // State to manage loading status
 
-//   const validateForm = async (event) => {
-//     console.log("Loading state:", loading);  // Check if this is being set correctly
-
-//       event.preventDefault();
-//       const newErrors = {};
-
-//     // Validate inputs
-//     if (!fullname) newErrors.fullname = "Full Name is required";
-//     if (!email) newErrors.email = "Email is required";
-//     if (!phone) newErrors.phone = "Phone Number is required";
-//     if (!password) newErrors.password = "Password is required";
-//     if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match";
-
-//     setErrors(newErrors);
-//     setLoading(true);  // Show loading indicator
-//     console.log("Loading state:", loading);  // Check
-//     // If no errors, proceed with signup
-//     if (Object.keys(newErrors).length === 0) {
-//         setLoading(true);  // Show loading indicator
-//         console.log("Loading state:", loading);  // Check if this is being set correctly
-
-//         try {
-//         const signup = useAuthStore.getState().signup;
-//         const userid = await signup({
-//           name: fullname,
-//           email: email,
-//           phone: phone,
-//           password: password,
-//           password_confirmation: confirmPassword,
-//         });
-
-//         if (userid) {
-//             localStorage.setItem("userid", userid);
-//             toast.success("Account created! Please verify your email.");
-//             navigate("/verify-email");
-            
-// toast.success("Signup successful! Please verify your email.");  // Show success toast
-// // Clear input fields after successful signup
-// setFullname("");
-// setEmail("");
-// setPhone("");
-// setPassword("");
-// setConfirmPassword("");
-//         } else {
-//             console.log("User ID was not returned, check the signup response.");
-//             toast.error("Unexpected error. Please try again.");
-//         }
-
-
-
-
-//       } catch (error) {
-//         console.error("Signup error:", error);
-//         setErrors({
-//           server: error?.response?.data?.message || "Signup failed",
-//         });
-//       } finally {
-//         setLoading(false);  // Hide loading indicator after the process completes
-//       }
-//     }
-//   };
-
 
 const validateFields = () => {
   const validationErrors = {};
@@ -100,7 +38,7 @@ const validateFields = () => {
 
 const handleSignUp = async (event) => {
     event.preventDefault();
-    console.log("hit");
+
     
     
     // Run validation before proceeding
@@ -128,14 +66,8 @@ const handleSignUp = async (event) => {
       toast.success("Account created! Please verify your email.");
       navigate("/verify-email");
 
-      // Clear input fields after successful signup
-    //   setFullname("");
-    //   setEmail("");
-    //   setPhone("");
-    //   setPassword("");
-    //   setConfirmPassword("");
     } else {
-      console.log("User ID was not returned, check the signup response.");
+    //   console.log("User ID was not returned, check the signup response.");
       toast.error("Unexpected error. Please try again.");
     }
   } catch (error) {
