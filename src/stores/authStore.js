@@ -111,7 +111,7 @@ getUserProfile: async (navigate) => {
       const userid = localStorage.getItem("userid"); // Retrieve userid from localStorage
 
       if (!token || !userid) {
-          throw new Error("Authentication details are missing");
+          throw new Error("Authentication details are missing, Kindly o back to log in or refresh this page ");
       }
       console.log('reaal');
       
@@ -130,7 +130,7 @@ getUserProfile: async (navigate) => {
         
           return response.data.userdetails; // Return user details
       } else {
-          throw new Error("Failed to fetch user profile");
+          throw new Error("Failed to fetch user profile, Kindly o back to log in or refresh this page");
       }
   } catch (error) {
       console.error("Error fetching user profile:", error);
