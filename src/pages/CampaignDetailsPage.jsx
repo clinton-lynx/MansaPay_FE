@@ -33,6 +33,8 @@ const CampaignDetailsPage = () => {
 
     const headers = [["Name", "Amount", "Payment Time", "Status"]];
     const data = payersList.map((payer) => [
+      console.log(payer), // Debugging;
+      
       payer.name || "N/A",
       `$${payer.amount}`,
       format(new Date(payer.paymentTime), "MMM d, yyyy h:mm a"),
