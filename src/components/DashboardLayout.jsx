@@ -117,7 +117,7 @@ export default function DashboardLayout({ children }) {
   const pathname = location.pathname;
   const logout = useAuthStore((state) => state.logout); // Get the logout function from your auth store
   const getUserProfile = useAuthStore((state) => state.getUserProfile); // Get the logout function from your auth store
-  console.log(pathname);
+  // console.log(pathname);
 
   useEffect(() => {
     // console.log("effect");
