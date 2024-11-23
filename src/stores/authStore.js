@@ -111,7 +111,7 @@ getUserProfile: async (navigate) => {
       const userid = localStorage.getItem("userid"); // Retrieve userid from localStorage
 
       if (!token || !userid) {
-          throw new Error("Authentication details are missing, Kindly o back to log in or refresh this page ");
+          throw new Error("Authentication details are missing, Kindly go back to log in or refresh this page ");
       }
       // console.log('reaal');
       
@@ -130,7 +130,8 @@ getUserProfile: async (navigate) => {
         
           return response.data.userdetails; // Return user details
       } else {
-          throw new Error("Failed to fetch user profile, Kindly o back to log in or refresh this page");
+        navigate("/login"); // Redirect to login page
+          throw new Error("Failed to fetch user profile, Kindly go back to log in or refresh this page");
       }
   } catch (error) {
       console.error("Error fetching user profile:", error);
@@ -139,8 +140,9 @@ getUserProfile: async (navigate) => {
       if (error.response?.status === 401) {
         console.log("wetin you find reach here egbon");
         
-          toast.error("Session expired. Please log in again.");
-          localStorage.removeItem("token"); // Clear invalid token
+        toast.error("Session expired. Please log in again.");
+        navigate("/login"); // Redirect to login page
+        localStorage.removeItem("token"); // Clear invalid token
           localStorage.removeItem("userid"); // Clear invalid user ID
           navigate("/login"); // Redirect to login page
       } else {

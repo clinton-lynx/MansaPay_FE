@@ -142,8 +142,8 @@ const PaymentLinkDetails = () => {
   //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
   // ];
   const campaignTableDetails =campaignAiDetails;
-// console.log(campaignAiDetails);
-// console.log(campaignTableDetails);
+console.log(campaignAiDetails);
+console.log(campaignTableDetails);
 
 
   const formatPayerData = (campaignDetails) => {
