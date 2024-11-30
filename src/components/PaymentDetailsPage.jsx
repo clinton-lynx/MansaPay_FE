@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import usePaymentStore from "../stores/paymentStore";
 const PaymentLinkDetails = () => {
   const { fetchPaymentDetails } = usePaymentStore();
+  const [analyticsSummary, setAnalyticsSummary] = useState('');
   const { formid } = useParams();
   const [campaignDetails, setCampaignDetails] = useState({ paymentmade: [] });
   const [campaignAiDetails, setCampaignAiDetails] = useState([]);
@@ -28,10 +29,10 @@ const PaymentLinkDetails = () => {
     const getCampaignAiDetails = async ()=>{
 
       try {
-// console.log("called");
+console.log("called");  
 
         const detailsAi = await getCampaignDetails(formid);
-        // console.log(detailsAi);
+        console.log(detailsAi);                                           
         setCampaignAiDetails(detailsAi)
       } catch (error) {
         console.error("Failed to fetch campaign details", error);
@@ -40,7 +41,14 @@ const PaymentLinkDetails = () => {
 
     getCampaignAiDetails();
   }, [getCampaignDetails,  formid]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const description = campaignDetails?.campaigns?.description || "";
+  const truncatedDescription = description.slice(0, 100); // Adjust length as needed
 
   useEffect(() => { 
     const getCampaignDetails = async ()=>{
@@ -48,100 +56,20 @@ const PaymentLinkDetails = () => {
       try {
 // console.log("called");
 
-        const details = await fetchPaymentDetails(userid, formid);
-        // console.log(details);
-        setCampaignDetails(details)
-      } catch (error) {
-        console.error("Failed to fetch campaign details", error);
-      } 
-    }
+const details = await fetchPaymentDetails(userid, formid);
+// console.log(details);
+setCampaignDetails(details)
+} catch (error) {
+  console.error("Failed to fetch campaign details", error);
+} 
+}
 
-    getCampaignDetails();
-  }, [fetchPaymentDetails, userid, formid]);
+getCampaignDetails();
+}, [fetchPaymentDetails, userid, formid]);
 
 
-
-  // const payers = [
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  //   { name: "John Doe", email: "johndoe@example.com", amount: "$99.00", time: "2024-11-15", method: "Credit Card" },
-  //   { name: "Jane Smith", email: "janesmith@example.com", amount: "$99.00", time: "2024-11-16", method: "PayPal" },
-  //   { name: "Michael Brown", email: "michaelb@example.com", amount: "$99.00", time: "2024-11-17", method: "Bank Transfer" },
-  // ];
-  const campaignTableDetails =campaignAiDetails;
+const campaignTableDetails = campaignAiDetails;
+console.log(campaignDetails);
 console.log(campaignAiDetails);
 console.log(campaignTableDetails);
 
@@ -182,33 +110,105 @@ console.log(campaignTableDetails);
   };
 
 
+
+  useEffect(() => {
+    const fetchAnalyticsSummary = async () => {
+      try {
+        const response = await fetch('https://mansa-be-6h4j.vercel.app/generate-analytics-summary', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ campaignDetails: campaignAiDetails }),
+        });
+
+        const data = await response.json();
+        console.log(data)
+        if (data.analyticsSummary) {
+          setAnalyticsSummary(data.analyticsSummary);
+        } else {
+          setAnalyticsSummary('No analytics summary available.');
+        }
+      } catch (error) {
+        console.error('Error fetching analytics summary:', error);
+        setAnalyticsSummary('Error fetching summary.');
+      }
+    };
+
+    fetchAnalyticsSummary();
+    console.log(campaignDetails);
+  }, [campaignAiDetails]);
+
+
+
+
+
+  const [chartData, setChartData] = useState({
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        label: "Daily Transactions (₦)",
+        data: [0, 0, 0, 0, 0, 0, 0], // Initialize with zeros
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ],
+  });
+
+  useEffect(() => {
+    if (campaignDetails?.paymentmade) {
+      const dailyTotals = [0, 0, 0, 0, 0, 0, 0]; // Initialize totals for each day (Sun to Sat)
+
+      campaignDetails.paymentmade.forEach((payment) => {
+        const date = new Date(payment.created_at);
+        const dayIndex = date.getDay(); // Sunday = 0, Monday = 1, ...
+        dailyTotals[dayIndex] += parseFloat(payment.amount || 0);
+      });
+
+      // Reorder days to start from Monday
+      const reorderedTotals = [...dailyTotals.slice(1), dailyTotals[0]];
+
+      setChartData((prevData) => ({
+        ...prevData,
+        datasets: [
+          {
+            ...prevData.datasets[0],
+            data: reorderedTotals,
+          },
+        ],
+      }));
+    }
+  }, [campaignDetails]);
+
+
+
+
+
   return (
     <div className="container mx-auto py-10 px-6 min-h-screen bg-gray-100">
+        <div className="mb-6">
+        <div className="bg-white p-4 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-gray-800">Campaign Analytics Summary</h3>
+          <p className="text-gray-700 mt-2">{analyticsSummary}</p>
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Transactions Chart Section */}
         <div className="lg:col-span-2 bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Transactions Chart</h2>
           <div className="h-96">
             {/* ChartJS chart goes here */}
-            <Bar
-            data={{
-              labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-              datasets: [
-                {
-                  label: "Daily Transactions (₦)",
-                  data: [5000, 7000, 6000, 8000, 10000, 7000, 11000],
-                  backgroundColor: "rgba(54, 162, 235, 0.6)",
-                  borderColor: "rgba(54, 162, 235, 1)",
-                  borderWidth: 1,
-                },
-              ],
-            }}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-            }}
-          />
-          </div>
+            {/* <div style={{ height: "400px", width: "600px" }}> */}
+      <Bar
+        data={chartData}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+        }}
+      />
+    </div>
+          {/* </div> */}
         </div>
 
         {/* Payment Details Section */}
@@ -216,26 +216,36 @@ console.log(campaignTableDetails);
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Payment Link Details</h2>
           <div className="mb-4">
             <p className="text-sm font-medium text-gray-500">Title</p>
-            <p className="text-lg font-semibold text-gray-800">{campaignDetails?.title}</p>
+            <p className="text-lg font-semibold text-gray-800">{campaignDetails?. campaigns?.title}</p>
           </div>
           <div className="mb-4">
             <p className="text-sm font-medium text-gray-500">Amount</p>
-            <p className="text-lg font-semibold text-green-600">{campaignDetails?.price}</p>
+            <p className="text-lg font-semibold text-green-600">{campaignDetails?. campaigns?.price || campaignDetails?. campaigns?.goal}</p>
           </div>
           <div className="mb-4">
             <p className="text-sm font-medium text-gray-500">Due Date</p>
-            <p className="text-lg font-semibold text-gray-800">{campaignDetails?.duedate}</p>
+            <p className="text-lg font-semibold text-gray-800">{campaignDetails?. campaigns?.duedate}</p>
           </div>
           <div className="mb-4">
             <p className="text-sm font-medium text-gray-500">Payment Link</p>
-            <a href={`${baseUrl}/pay/${campaignDetails?.formid}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline break-all">
-              {`mansapay.com/pay/${campaignDetails?.formid}`}
+            <a href={`${baseUrl}/pay/${campaignDetails?. campaigns?.formid}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline break-all">
+              {`mansapay.com/pay/${campaignDetails?. campaigns?.formid}`}
             </a>
           </div>
           <div className="mb-6">
-            <p className="text-sm font-medium text-gray-500">Description</p>
-            <p className="text-gray-700">{campaignDetails?.description}</p>
-          </div>
+      <p className="text-sm font-medium text-gray-500">Description</p>
+      <p className="text-gray-700">
+        {isExpanded ? description : truncatedDescription}
+        {description.length > 100 && (
+          <span
+            className="text-blue-500 cursor-pointer ml-2"
+            onClick={toggleDescription}
+          >
+            {isExpanded ? "Show less" : "Show more"}
+          </span>
+        )}
+      </p>
+    </div>
           <div className="flex justify-between">
             <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
               <FaEdit /> Edit

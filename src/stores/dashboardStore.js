@@ -31,6 +31,9 @@ const useDashboardStore = create((set) => ({
       if (data.response) {
         const parsedData = {
           totalBalance: data.userdetails.original.userdetails.acc_bal,
+          totalCampaigns: data.totalCampaign,
+          totalPayers: data.noOfDonors,
+          todaysBalance: data.totalincometoday,
           accountNumber: data.userdetails.original.userdetails.acc_number,
           bankName: data.userdetails.original.userdetails.bank_name,
           successfulPayments: {

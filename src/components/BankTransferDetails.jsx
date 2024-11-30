@@ -17,6 +17,7 @@ const BankTransferDetails = ({ formid, userData }) => {
 
     // Trigger bank transfer initiation on component mount
     useEffect(() => {
+        console.log('userData', userData);
         if (formid && userData) {
             initiateBankTransfer({
                 formid,
@@ -84,7 +85,7 @@ const BankTransferDetails = ({ formid, userData }) => {
 
                 <div className="flex flex-col sm:flex-row justify-between">
                     <p className="text-gray-600 text-lg">
-                        <strong>Amount Payable:</strong> {transactionDetails.transaction_amount_payable} {transactionDetails.currency.name}
+                        <strong>Amount Payable:</strong> {transactionDetails.currency.name} {transactionDetails.transaction_amount_payable} 
                     </p>
                 </div>
             </div>

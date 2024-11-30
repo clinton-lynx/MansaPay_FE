@@ -176,7 +176,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/payment-links"
+          path="/dashboard/campaigns"
           element={
             <ProtectedRoute>
               <PaymentLinkManagementPage />

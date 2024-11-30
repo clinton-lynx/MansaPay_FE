@@ -66,6 +66,7 @@ const Chatbot = ({campaignDetails}) => {
       } else {
         // Fallback to the server if the query cannot be handled locally
         const response = await fetch('https://mansa-be-6h4j.vercel.app/chat', {
+        // const response = await fetch('http://localhost:3000/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

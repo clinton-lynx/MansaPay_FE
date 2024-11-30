@@ -50,38 +50,34 @@ import { toast } from "react-toastify";
       }
     },
     
-    // Function to create a payment link
     createPaymentLink: async (paymentData) => {
       set({ loading: true, error: null });
-
+    
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.post(
-          `${API_URL}/addcampaign`,
-          {
-            userid: paymentData.userid,
-            title: paymentData.title,
-            description: paymentData.description,
-            price: paymentData.price,
-            duedate: paymentData.dueDate,
+    
+        // Send JSON data to the backend
+        const response = await axios.post(`${API_URL}/addcampaign`, paymentData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data && response.data.response) {
+        });
+    
+        console.log("Server response:", response.data);
+    
+        if (response.data && response.data.formid) {
           set({ formId: response.data.formid, loading: false });
         } else {
           set({ error: "Failed to create payment link", loading: false });
         }
       } catch (error) {
-        set({ error: error.response?.data?.message || error.message, loading: false });
+        const errorMessage = error.response?.data?.message || error.message;
+        console.error("Error during createPaymentLink:", errorMessage);
+        set({ error: errorMessage, loading: false });
       }
     },
-
+     
 
     fetchCampaignStatus: async (campaignId) => {
       const token = localStorage.getItem("token");
@@ -134,10 +130,10 @@ import { toast } from "react-toastify";
 
           // console.log("Payment details response: ", response.data);
           set({ loading: false });
-
+          console.log(response)
           // Check if the response contains the expected data
           if (response.data.response) {
-              return response.data.campaigns; // Return the campaigns object directly
+              return response.data; // Return the campaigns object directly
           } else {
               throw new Error("Failed to fetch payment details");
           }
@@ -260,6 +256,7 @@ import { toast } from "react-toastify";
 
     // Function to initiate bank transfer
     initiateBankTransfer: async (transferData) => {
+      console.log(transferData);
       set({ loading: true, error: null });
       try {
         const token = localStorage.getItem("token");

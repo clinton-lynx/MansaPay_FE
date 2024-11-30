@@ -29,10 +29,10 @@ import { Logo } from "./icons.jsx";
 // import { getUserProfile } from "../stores/authStore";
 // import { usePathname } from "react";
 const navigation = [
-  { name: "Home", href: "/dashboard", icon: LinkIcon, current: true },
+  { name: "Dashboard", href: "/dashboard", icon: LinkIcon, current: true },
   {
-    name: "Payment Pages",
-    href: "/dashboard/payment-links",
+    name: "Campaigns",
+    href: "/dashboard/campaigns ",
     icon: TemplatesIcon,
     current: false,
   },
@@ -44,10 +44,10 @@ const navigation = [
   },
 ];
 const mobileNavigation = [
-  { name: "Home", href: "/dashboard", icon: LinkIcon, current: true },
+  { name: "Dashboard", href: "/dashboard", icon: LinkIcon, current: true },
   {
-    name: "Payment Pages",
-    href: "/dashboard/payment-links",
+    name: "Campaigns",
+    href: "/dashboard/campaigns",
     icon: TemplatesIcon,
     current: false,
   },
@@ -83,7 +83,7 @@ const belowNavigation = [
 ];
 const userNavigation = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "Payment Pages", href: "/payment-pages" },
+  { name: "Campaigns", href: "/dashboard/campaigns" },
   { name: "Payout", href: "/payout-details" },
   {
     name: "Sign Out",
@@ -272,8 +272,8 @@ export default function DashboardLayout({ children }) {
                 MansaPay
               </h3> */}
             </div>
-            <div className="mt-10 flex justify-center items-center flex-1 flex-col">
-              <nav className="flex flex-col items-start flex-1 space-y-8 px-2 pb-4 max-w-xs">
+            <div className="mt-5 flex justify-center items-center flex-1 flex-col h-60">
+              <nav className="flex flex-col items-start flex-1 space-y-8 px-2 pb-4 max-w-xs ">
                 {navigation.map((item) => {
                   const isActive = pathname.startsWith(item.href);
                   return (
@@ -292,15 +292,18 @@ export default function DashboardLayout({ children }) {
                         isActive
                           ? " mt-5 w-full bg-white text-blue-700"
                           : " mt-5  w-full text-white hover:bg-[#1a1b58]",
-                        "group flex justify-start  items-center  px-8 py-2 text-sm font-medium rounded-md text-left"
+                        "group flex justify-center  items-center  px-2 py-2 text-sm font-medium rounded-md text-left"
                       )}
                       // className={isActive ? " mt-5 w-full bg-white text-dashboard-green" : " mt-5  w-full text-indigo-100 hover:bg-indigo-600 " }
                     >
+                      <div className="wrapper mr-2 ">
+
                       <item.icon
                         fill={isActive ? "#287774" : "#fff"}
-                        className="mr-12 ml-5 h-26 w-16 flex-shrink-0 text-indigo-300"
+                        className="h-26 w-16 flex-shrink-0 text-indigo-300"
                         aria-hidden="true"
-                      />
+                        />
+                        </div>
                       {item.name}
                     </Link>
                   );
@@ -308,7 +311,9 @@ export default function DashboardLayout({ children }) {
                 <div className=" mt-5">
                   <LineDivider />
                 </div>
-                {belowNavigation.map((item) => {
+               
+              </nav>
+              {belowNavigation.map((item) => {
                   const isActive = pathname.startsWith(item.href);
                   return (
                     <Link
@@ -324,22 +329,23 @@ export default function DashboardLayout({ children }) {
                       }}
                       className={classNames(
                         isActive
-                          ? " mt-5 w-full bg-white text-dashboard-green "
-                          : " mt-5  w-full text-indigo-100 hover:bg-[#96dcd9]",
-                        "group flex justify-start  items-center px-8 py-2 text-sm font-medium rounded-md text-left"
+                        ? " mb-[15rem] w-full bg-white text-blue-700"
+                        : " mb-[15rem]  w-full text-white hover:bg-[#1a1b58]",
+                        "group flex justify-center  items-center px-8 py-2 text-sm font-medium rounded-md text-left "
                       )}
                       // className={isActive ? " mt-5 w-full bg-white text-dashboard-green" : " mt-5  w-full text-indigo-100 hover:bg-indigo-600 " }
                     >
+                       <div className="wrapper mr-2 ">
                       <item.icon
                         fill={isActive ? "#287774" : "#fff"}
                         className="mr-12 h-26 w-16 flex-shrink-0 text-indigo-300"
                         aria-hidden="true"
-                      />
+                        />
+                        </div>
                       {item.name}
                     </Link>
                   );
                 })}
-              </nav>
             </div>
           </div>
         </div>
