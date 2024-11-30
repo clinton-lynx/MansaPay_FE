@@ -174,7 +174,7 @@ const CreatePaymentLink = () => {
       const value = field === "title" ? formData.title : formData.description;
 
       const response = await axios.post(
-        `https://mansa-be-6h4j.vercel.app${endpoint}`,
+        `http://localhost:3000${endpoint}`,
         { [field]: value },
         { withCredentials: true }
       );

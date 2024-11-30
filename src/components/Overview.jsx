@@ -153,7 +153,9 @@ useEffect(() => {
     <div className="text-green-600 text-5xl mb-4">
       <CurrencyDollarIcon className="h-10 w-10" />
     </div>
-    <p className="text-3xl font-bold text-green-600 mb-2">₦{dashboardData.todaysBalance}</p>
+    <p className="text-3xl font-bold text-blue-600 mb-2">
+    ₦{new Intl.NumberFormat('en-NG').format(dashboardData.todaysBalance)}
+  </p>
     <h3 className="text-lg font-medium text-gray-700">Today&apos;s Balance</h3>
   </div>
 
