@@ -279,9 +279,9 @@ const PaymentComp = () => {
         <div className="my-6">
           <h3 className="text-xl font-semibold text-blue-600 mb-2">Uploaded Image</h3>
           <img
-            // src={paymentDetails.campaigns.picture}
+            src={paymentDetails.campaigns.picture}
             // src={"https://picsum.photos/300/200"}
-            src={"https://6a56-105-112-20-102.ngrok-free.app/uploads/62ab42105851163c65f22018f051a940_fest.jpg"}
+            // src={"https://6a56-105-112-20-102.ngrok-free.app/uploads/62ab42105851163c65f22018f051a940_fest.jpg"}
             alt="Campaign"
             className="w-full h-48 object-cover rounded-lg shadow-md"
           />
